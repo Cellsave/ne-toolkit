@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Professional network analysis and diagnostic tools for network engineers">
+    <meta name="keywords" content="network tools, BGP, subnet calculator, WHOIS, network engineering">
+    <title>Network Engineers Toolkit</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/assets/icons/icon-32x32.png">
+    <link rel="manifest" href="/manifest.json">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="stylesheet" href="/assets/css/components.css">
+    <link rel="stylesheet" href="/assets/css/responsive.css">
+</head>
+<body>
+    <!-- Loading Spinner -->
+    <div id="loading-spinner" class="loading-spinner">
+        <div class="spinner"></div>
+        <p>Loading...</p>
+    </div>
+
+    <!-- Login/Register Screen -->
+    <div id="auth-screen" class="auth-screen" style="display: none;">
+        <div class="auth-container">
+            <div class="auth-header">
+                <h1>Network Engineers Toolkit</h1>
+                <p>Professional network analysis and diagnostic tools</p>
+            </div>
+
+            <!-- Login Form -->
+            <div id="login-form" class="auth-form">
+                <h2>Login</h2>
+                <form id="login-form-element">
+                    <div class="form-group">
+                        <label for="login-email">Email</label>
+                        <input type="email" id="login-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                        <input type="password" id="login-password" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </div>
+                </form>
+                <p class="auth-switch">
+                    Don't have an account? <a href="#" id="show-register">Register</a>
+                </p>
+            </div>
+
+            <!-- Register Form -->
+            <div id="register-form" class="auth-form" style="display: none;">
+                <h2>Register</h2>
+                <form id="register-form-element">
+                    <div class="form-group">
+                        <label for="register-account-name">Account Name</label>
+                        <input type="text" id="register-account-name" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="register-first-name">First Name</label>
+                            <input type="text" id="register-first-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="register-last-name">Last Name</label>
+                            <input type="text" id="register-last-name" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-email">Email</label>
+                        <input type="email" id="register-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-password">Password</label>
+                        <input type="password" id="register-password" required minlength="8">
+                        <small>Minimum 8 characters</small>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Register</button>
+                    </div>
+                </form>
+                <p class="auth-switch">
+                    Already have an account? <a href="#" id="show-login">Login</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Application -->
+    <div id="app" style="display: none;">
+        <!-- Navigation -->
+        <nav class="main-nav">
+            <div class="nav-brand">
+                <h1>Network Engineers Toolkit</h1>
+            </div>
+            <div class="nav-menu">
+                <a href="#" data-page="dashboard" class="nav-item active">Dashboard</a>
+                <a href="#" data-page="tools" class="nav-item">Tools</a>
+                <a href="#" data-page="account" class="nav-item">Account</a>
+            </div>
+            <div class="nav-user">
+                <span id="user-name"></span>
+                <button id="logout-btn" class="btn btn-secondary">Logout</button>
+            </div>
+        </nav>
+
+        <!-- Content Area -->
+        <main class="main-content">
+            <!-- Dashboard Page -->
+            <div id="dashboard-page" class="page active">
+                <div class="page-header">
+                    <h2>Dashboard</h2>
+                    <p>Welcome to the Network Engineers Toolkit</p>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">🔧</div>
+                        <div class="stat-content">
+                            <h3>Available Tools</h3>
+                            <p class="stat-value">12</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">👥</div>
+                        <div class="stat-content">
+                            <h3>Account Users</h3>
+                            <p class="stat-value" id="user-count">-</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">✅</div>
+                        <div class="stat-content">
+                            <h3>Account Status</h3>
+                            <p class="stat-value" id="account-status">Active</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quick-tools">
+                    <h3>Quick Access Tools</h3>
+                    <div class="tools-grid">
+                        <a href="bgp-tools.html" class="tool-card">
+                            <h4>BGP Tools</h4>
+                            <p>BGP route analysis and diagnostics</p>
+                        </a>
+                        <a href="subnet-calculator.html" class="tool-card">
+                            <h4>Subnet Calculator</h4>
+                            <p>IP subnet calculations</p>
+                        </a>
+                        <a href="whois-lookup.html" class="tool-card">
+                            <h4>WHOIS Lookup</h4>
+                            <p>Domain and IP information</p>
+                        </a>
+                        <a href="troubleshooting.html" class="tool-card">
+                            <h4>Troubleshooting</h4>
+                            <p>Network diagnostic commands</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tools Page -->
+            <div id="tools-page" class="page">
+                <div class="page-header">
+                    <h2>All Tools</h2>
+                    <p>Access all network engineering tools</p>
+                </div>
+
+                <div class="tools-list">
+                    <div class="tool-item">
+                        <h3>BGP Lookup Tools</h3>
+                        <p>Analyze BGP routes, AS paths, and community information</p>
+                        <a href="bgp-tools.html" class="btn btn-primary">Open Tool</a>
+                    </div>
+
+                    <div class="tool-item">
+                        <h3>IP Subnet Calculator</h3>
+                        <p>Calculate subnet masks, network ranges, and host information</p>
+                        <a href="subnet-calculator.html" class="btn btn-primary">Open Tool</a>
+                    </div>
+
+                    <div class="tool-item">
+                        <h3>WHOIS Lookup</h3>
+                        <p>Domain registration and IP ownership information</p>
+                        <a href="whois-lookup.html" class="btn btn-primary">Open Tool</a>
+                    </div>
+
+                    <div class="tool-item">
+                        <h3>Configuration Convertor</h3>
+                        <p>Convert between JUNOS configuration formats</p>
+                        <a href="junos-convertor.html" class="btn btn-primary">Open Tool</a>
+                    </div>
+
+                    <div class="tool-item">
+                        <h3>Password Decrypt</h3>
+                        <p>Decrypt network device passwords</p>
+                        <a href="password-decrypt.html" class="btn btn-primary">Open Tool</a>
+                    </div>
+
+                    <div class="tool-item">
+                        <h3>Troubleshooting Tools</h3>
+                        <p>Network diagnostic commands database</p>
+                        <a href="troubleshooting.html" class="btn btn-primary">Open Tool</a>
+                    </div>
+
+                    <div class="tool-item">
+                        <h3>Syslog Analysis</h3>
+                        <p>Parse and analyze syslog data</p>
+                        <a href="syslog-analysis.html" class="btn btn-primary">Open Tool</a>
+                    </div>
+
+                    <div class="tool-item">
+                        <h3>Engineer Tools</h3>
+                        <p>Ping and traceroute utilities</p>
+                        <a href="engineer-tools.html" class="btn btn-primary">Open Tool</a>
+                    </div>
+
+                    <div class="tool-item">
+                        <h3>Quick Links</h3>
+                        <p>Manage useful bookmarks and resources</p>
+                        <a href="quick-links.html" class="btn btn-primary">Open Tool</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Account Page -->
+            <div id="account-page" class="page">
+                <div class="page-header">
+                    <h2>Account Management</h2>
+                    <p>Manage your account and users</p>
+                </div>
+
+                <div class="account-section">
+                    <h3>Account Information</h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <label>Account Name:</label>
+                            <span id="account-name">-</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Status:</label>
+                            <span id="account-status-detail">-</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Users:</label>
+                            <span id="users-info">-</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="account-section" id="users-section">
+                    <div class="section-header">
+                        <h3>Users</h3>
+                        <button id="add-user-btn" class="btn btn-primary">Add User</button>
+                    </div>
+                    <div id="users-list"></div>
+                </div>
+
+                <div class="account-section">
+                    <h3>Profile</h3>
+                    <form id="profile-form">
+                        <div class="form-group">
+                            <label for="profile-email">Email</label>
+                            <input type="email" id="profile-email" disabled>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="profile-first-name">First Name</label>
+                                <input type="text" id="profile-first-name">
+                            </div>
+                            <div class="form-group">
+                                <label for="profile-last-name">Last Name</label>
+                                <input type="text" id="profile-last-name">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Update Profile</button>
+                    </form>
+                </div>
+
+                <div class="account-section">
+                    <h3>Change Password</h3>
+                    <form id="password-form">
+                        <div class="form-group">
+                            <label for="current-password">Current Password</label>
+                            <input type="password" id="current-password" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="new-password">New Password</label>
+                            <input type="password" id="new-password" required minlength="8">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Change Password</button>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal for Adding Users -->
+    <div id="add-user-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add New User</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <form id="add-user-form">
+                <div class="form-group">
+                    <label for="new-user-email">Email</label>
+                    <input type="email" id="new-user-email" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="new-user-first-name">First Name</label>
+                        <input type="text" id="new-user-first-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="new-user-last-name">Last Name</label>
+                        <input type="text" id="new-user-last-name" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="new-user-password">Password</label>
+                    <input type="password" id="new-user-password" required minlength="8">
+                </div>
+                <div class="form-group">
+                    <label for="new-user-role">Role</label>
+                    <select id="new-user-role" required>
+                        <option value="user">User</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary modal-close">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add User</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="notification" class="notification"></div>
+
+    <!-- JavaScript -->
+    <script src="/assets/js/config.js"></script>
+    <script src="/assets/js/api.js"></script>
+    <script src="/assets/js/auth.js"></script>
+    <script src="/assets/js/ui.js"></script>
+    <script src="/assets/js/main.js"></script>
+</body>
+</html>
