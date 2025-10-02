@@ -1,4 +1,5 @@
 // Network Engineers Toolkit - Main Server
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -102,6 +103,7 @@ app.get('/health', async (req, res) => {
 // API Routes
 app.use('/api/tools', toolsRouter);
 app.use('/api/admin', adminRouter);
+app.use('/api/referrals', require('./routes/referrals'));
 
 // Authentication
 app.post('/api/auth/login', async (req, res) => {

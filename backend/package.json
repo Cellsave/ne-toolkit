@@ -7,7 +7,10 @@
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
     "test": "jest",
-    "lint": "eslint src/"
+    "lint": "eslint src/",
+    "setup:admin": "node src/setup_admin.js",
+    "migrate": "node src/migrate.js",
+    "backup": "node src/backup.js"
   },
   "keywords": ["network", "tools", "bgp", "whois", "subnet", "password-decrypt"],
   "author": "Network Engineers Toolkit Team",
@@ -32,7 +35,9 @@
     "ping": "^0.4.4",
     "net-ping": "^1.2.3",
     "dns": "^0.2.2",
-    "whois": "^2.13.7"
+    "whois": "^2.13.7",
+    "nodemailer": "^6.9.4",
+    "dotenv": "^16.3.1"
   },
   "devDependencies": {
     "nodemon": "^3.0.1",

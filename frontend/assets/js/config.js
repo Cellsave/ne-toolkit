@@ -4,7 +4,9 @@
 
 const CONFIG = {
     // API Configuration
-    API_BASE_URL: 'http://localhost:3000/api',
+    API_BASE_URL: window.location.origin.includes('localhost') 
+        ? 'http://localhost:3000/api' 
+        : '/api',
     
     // Authentication
     TOKEN_KEY: 'nettools_token',
@@ -38,7 +40,11 @@ const CONFIG = {
         
         // Tools
         TOOLS_LIST: '/tools',
-        TOOL_EXECUTE: (toolName) => `/tools/${toolName}/execute`
+        TOOL_EXECUTE: (toolName) => `/tools/${toolName}/execute`,
+        
+        // Referrals
+        REFERRALS: '/referrals',
+        VALIDATE_REFERRAL: (code) => `/referrals/validate/${code}`
     },
     
     // UI Configuration
@@ -133,6 +139,14 @@ const CONFIG = {
             category: 'UTILITIES',
             url: 'quick-links.html',
             icon: '🔗'
+        },
+        {
+            id: 'refer-colleague',
+            name: 'Refer Colleague',
+            description: 'Invite colleagues to join the toolkit',
+            category: 'UTILITIES',
+            url: 'javascript:showReferColleagueModal()',
+            icon: '👥'
         }
     ],
     

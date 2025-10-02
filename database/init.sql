@@ -98,9 +98,8 @@ CREATE INDEX idx_whois_cache_expires_at ON whois_cache(expires_at);
 CREATE INDEX idx_bgp_cache_asn ON bgp_cache(asn);
 CREATE INDEX idx_bgp_cache_expires_at ON bgp_cache(expires_at);
 
--- Default admin user (password: admin123 - CHANGE THIS!)
-INSERT INTO users (username, email, password_hash, role) VALUES 
-('admin', 'admin@nettools.local', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin');
+-- Default admin user removed for security
+-- Use the setup:admin script to create the initial admin user after deployment
 
 -- Default settings
 INSERT INTO app_settings (setting_key, setting_value, description) VALUES
@@ -110,10 +109,8 @@ INSERT INTO app_settings (setting_key, setting_value, description) VALUES
 ('cache_expiry_hours', '24', 'Default cache expiry in hours'),
 ('rate_limit_per_minute', '60', 'API rate limit per minute per user');
 
--- Default API key placeholders
-INSERT INTO api_keys (service_name, api_key_encrypted, description, created_by) VALUES
-('whoisxml', 'ENCRYPTED_KEY_PLACEHOLDER', 'WhoisXML API for domain lookups', (SELECT id FROM users WHERE username = 'admin')),
-('peeringdb', 'ENCRYPTED_KEY_PLACEHOLDER', 'PeeringDB API for BGP data', (SELECT id FROM users WHERE username = 'admin'));
+-- API keys will be added through the admin interface after deployment
+-- No default API keys are inserted for security reasons
 
 -- Update timestamp trigger
 CREATE OR REPLACE FUNCTION update_updated_at_column()
@@ -129,3 +126,23 @@ CREATE TRIGGER update_users_updated_at BEFORE UPDATE ON users
 
 CREATE TRIGGER update_api_keys_updated_at BEFORE UPDATE ON api_keys
     FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+-- Referrals table for colleague referral feature
+CREATE TABLE referrals (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    referrer_user_id UUID REFERENCES users(id),
+    referee_email VARCHAR(100) NOT NULL,
+    referee_name VARCHAR(100),
+    referral_code VARCHAR(20) UNIQUE NOT NULL,
+    status VARCHAR(20) DEFAULT 'pending' CHECK (status IN ('pending', 'registered', 'expired')),
+    message TEXT,
+    expires_at TIMESTAMP WITH TIME ZONE DEFAULT (CURRENT_TIMESTAMP + INTERVAL '30 days'),
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    registered_at TIMESTAMP WITH TIME ZONE
+);
+
+-- Indexes for referrals table
+CREATE INDEX idx_referrals_code ON referrals(referral_code);
+CREATE INDEX idx_referrals_referrer ON referrals(referrer_user_id);
+CREATE INDEX idx_referrals_status ON referrals(status);
+CREATE INDEX idx_referrals_expires_at ON referrals(expires_at);
