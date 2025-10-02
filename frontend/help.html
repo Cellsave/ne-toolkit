@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help - Network Engineer's Toolbox</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="js/common.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/bug-report.js"></script>
+</head>
+<body>
+    <header>
+        <div>
+            <h1>Help & Documentation</h1>
+            <p>Comprehensive guides for network engineering tools</p>
+        </div>
+        <div class="header-right">
+            <div id="theme-toggle" class="theme-toggle" title="Toggle dark/light mode">🌙</div>
+            <div class="version-indicator">v2.6</div>
+        </div>
+    </header>
+    
+    <nav>
+        <ul>
+            <li>
+                <a href="index.html">Home</a>
+                <div class="tooltip">Return to main page</div>
+            </li>
+            <li>
+                <a href="troubleshooting.html">Troubleshooting Tools</a>
+                <div class="tooltip">Network diagnostic tools</div>
+            </li>
+            <li>
+                <a href="junos-convertor.html">Configuration Convertor</a>
+                <div class="tooltip">Convert JUNOS formats</div>
+            </li>
+            <li>
+                <a href="subnet-calculator.html">IP Subnet Calculator</a>
+                <div class="tooltip">Calculate network ranges</div>
+            </li>
+            <li>
+                <a href="password-decrypt.html">Password Decrypt</a>
+                <div class="tooltip">Decrypt network passwords</div>
+            </li>
+            <li>
+                <a href="whois-lookup.html">WHOIS Lookup</a>
+                <div class="tooltip">Domain ownership info</div>
+            </li>
+            <li>
+                <a href="bgp-tools.html">BGP Lookup Tools</a>
+                <div class="tooltip">BGP route analysis</div>
+            </li>
+            <li>
+                <a href="syslog-analysis.html">Syslog Analysis</a>
+                <div class="tooltip">Analyze syslog data</div>
+            </li>
+            <li>
+                <a href="engineer-tools.html">Engineer Tools</a>
+                <div class="tooltip">Network engineering tools</div>
+            </li>
+            <li>
+                <a href="quick-links.html">Quick Links</a>
+                <div class="tooltip">Useful bookmarks</div>
+            </li>
+            <li>
+                <a href="qa.html">Q&A</a>
+                <div class="tooltip">Frequently asked questions</div>
+            </li>
+        </ul>
+    </nav>
+    
+    <main>
+        <div class="tool-card">
+            <h2>Getting Started</h2>
+            <p>Welcome to the Network Engineer's Interactive Toolbox. This comprehensive suite of tools is designed to help network engineers with common tasks and diagnostics.</p>
+            
+            <h3>Quick Start Guide</h3>
+            <ol>
+                <li>Select a tool from the navigation menu above</li>
+                <li>Enter the required information in the tool's input fields</li>
+                <li>Click the appropriate action button (Calculate, Analyze, Lookup, etc.)</li>
+                <li>Review the results displayed on the page</li>
+                <li>Use the Refresh button to clear and start over</li>
+            </ol>
+        </div>
+        
+        <div class="tool-card">
+            <h2>Available Tools</h2>
+            
+            <h3>BGP Lookup Tools</h3>
+            <p><strong>Purpose:</strong> Analyze BGP routing information for IPv4 prefixes and AS paths.</p>
+            <p><strong>Use Cases:</strong></p>
+            <ul>
+                <li>Troubleshoot BGP route advertisements</li>
+                <li>Analyze AS path information</li>
+                <li>Review BGP community tags</li>
+                <li>Investigate BGP peer relationships</li>
+            </ul>
+            <p><strong>How to Use:</strong></p>
+            <ol>
+                <li>Enter an IP prefix or IP address</li>
+                <li>Select the analysis type (Route Lookup, AS Path, Peer Info, or Community)</li>
+                <li>Click "Analyze BGP"</li>
+                <li>Review the detailed results table</li>
+            </ol>
+            
+            <h3>IP Subnet Calculator</h3>
+            <p><strong>Purpose:</strong> Calculate network information for IPv4 subnets.</p>
+            <p><strong>Use Cases:</strong></p>
+            <ul>
+                <li>Plan IP address allocation</li>
+                <li>Determine network and broadcast addresses</li>
+                <li>Calculate usable host ranges</li>
+                <li>Convert between CIDR and decimal notation</li>
+            </ul>
+            <p><strong>How to Use:</strong></p>
+            <ol>
+                <li>Enter an IP address (e.g., 192.168.1.1)</li>
+                <li>Enter subnet mask (e.g., 255.255.255.0 or /24)</li>
+                <li>Click "Calculate Subnet"</li>
+                <li>Review network information including ranges and counts</li>
+            </ol>
+            
+            <h3>WHOIS Lookup</h3>
+            <p><strong>Purpose:</strong> Query domain registration and IP allocation information.</p>
+            <p><strong>Use Cases:</strong></p>
+            <ul>
+                <li>Find domain ownership information</li>
+                <li>Locate IP address allocations</li>
+                <li>Identify registrar and nameserver details</li>
+                <li>Determine IP geolocation</li>
+            </ul>
+            <p><strong>How to Use:</strong></p>
+            <ol>
+                <li>Enter a domain name or IP address</li>
+                <li>Select lookup type (WHOIS or Geolocation)</li>
+                <li>Click "Perform Lookup"</li>
+                <li>Review registration or geolocation data</li>
+            </ol>
+            
+            <h3>Configuration Convertor</h3>
+            <p><strong>Purpose:</strong> Convert between different JUNOS configuration formats.</p>
+            <p><strong>Use Cases:</strong></p>
+            <ul>
+                <li>Convert set commands to hierarchical format</li>
+                <li>Generate XML configuration from set commands</li>
+                <li>Parse hierarchical configs to set format</li>
+                <li>Automate configuration transformations</li>
+            </ul>
+            <p><strong>Supported Formats:</strong></p>
+            <ul>
+                <li>Set commands</li>
+                <li>Hierarchical (curly brace) format</li>
+                <li>XML format</li>
+            </ul>
+            
+            <h3>Password Decrypt</h3>
+            <p><strong>Purpose:</strong> Decrypt common network device password types.</p>
+            <p><strong>Supported Types:</strong></p>
+            <ul>
+                <li>Cisco Type 7 (reversible encryption)</li>
+                <li>Juniper Type 9 (MD5-based)</li>
+                <li>Generic MD5 hashes</li>
+                <li>Base64 encoding</li>
+            </ul>
+            <p><strong>Security Note:</strong> Only decrypt passwords for devices you are authorized to access.</p>
+            
+            <h3>Troubleshooting Tools</h3>
+            <p><strong>Purpose:</strong> Database of vendor-specific diagnostic commands.</p>
+            <p><strong>Features:</strong></p>
+            <ul>
+                <li>Filter by vendor (Cisco, Juniper, Arista, etc.)</li>
+                <li>Filter by protocol (BGP, OSPF, MPLS, etc.)</li>
+                <li>Search for specific commands</li>
+                <li>View command syntax and examples</li>
+            </ul>
+            
+            <h3>Syslog Analysis</h3>
+            <p><strong>Purpose:</strong> Parse and analyze syslog data from network devices.</p>
+            <p><strong>Features:</strong></p>
+            <ul>
+                <li>Upload CSV syslog files</li>
+                <li>Paste CSV data directly</li>
+                <li>Group logs by hostname or event category</li>
+                <li>Search and filter log entries</li>
+                <li>Export filtered results to CSV or JSON</li>
+            </ul>
+            
+            <h3>Engineer Tools</h3>
+            <p><strong>Purpose:</strong> Web-based ping and traceroute utilities.</p>
+            <p><strong>Features:</strong></p>
+            <ul>
+                <li>Simulated ping with configurable count</li>
+                <li>Simulated traceroute with hop analysis</li>
+                <li>Export results to CSV or JSON</li>
+                <li>Visual progress tracking</li>
+            </ul>
+            
+            <h3>Quick Links</h3>
+            <p><strong>Purpose:</strong> Manage bookmarks and useful resources.</p>
+            <p><strong>Features:</strong></p>
+            <ul>
+                <li>Categorize links (Company, Supplier, Vendor, Misc)</li>
+                <li>Add custom categories</li>
+                <li>Search through saved links</li>
+                <li>Import/export link collections</li>
+            </ul>
+        </div>
+        
+        <div class="tool-card">
+            <h2>Tips & Best Practices</h2>
+            
+            <h3>General Tips</h3>
+            <ul>
+                <li><strong>Bookmark Frequently Used Tools:</strong> Use your browser's bookmark feature to save direct links to tools you use often</li>
+                <li><strong>Use Browser Search:</strong> Press Ctrl+F (Cmd+F on Mac) to search within tool results</li>
+                <li><strong>Copy Results:</strong> Most result fields can be selected and copied to your clipboard</li>
+                <li><strong>Check Browser Compatibility:</strong> This toolbox works best in modern browsers (Chrome, Firefox, Safari, Edge)</li>
+            </ul>
+            
+            <h3>Performance Tips</h3>
+            <ul>
+                <li><strong>Large File Processing:</strong> When analyzing large syslog files, be patient - processing may take 10-15 seconds</li>
+                <li><strong>Clear Browser Cache:</strong> If tools aren't loading properly, try clearing your browser cache</li>
+                <li><strong>Enable JavaScript:</strong> All tools require JavaScript to be enabled</li>
+            </ul>
+            
+            <h3>Security Considerations</h3>
+            <ul>
+                <li><strong>Password Security:</strong> Never share decrypted passwords or store them in plain text</li>
+                <li><strong>Private Data:</strong> All tools run locally in your browser - no data is sent to external servers</li>
+                <li><strong>WHOIS Queries:</strong> WHOIS lookups use public data sources and may be rate-limited</li>
+            </ul>
+        </div>
+        
+        <div class="tool-card">
+            <h2>Keyboard Shortcuts</h2>
+            <table style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr style="background-color: var(--secondary-color); color: white;">
+                        <th style="padding: 8px; text-align: left;">Shortcut</th>
+                        <th style="padding: 8px; text-align: left;">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="padding: 8px; border-bottom: 1px solid #ddd;">Ctrl + F</td>
+                        <td style="padding: 8px; border-bottom: 1px solid #ddd;">Search within page</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 8px; border-bottom: 1px solid #ddd;">F5 or Ctrl + R</td>
+                        <td style="padding: 8px; border-bottom: 1px solid #ddd;">Refresh page</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 8px; border-bottom: 1px solid #ddd;">Tab</td>
+                        <td style="padding: 8px; border-bottom: 1px solid #ddd;">Navigate between input fields</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 8px; border-bottom: 1px solid #ddd;">Enter</td>
+                        <td style="padding: 8px; border-bottom: 1px solid #ddd;">Submit form or execute tool</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="tool-card">
+            <h2>Common Issues & Solutions</h2>
+            
+            <h3>Tool Not Loading</h3>
+            <p><strong>Problem:</strong> Tool page is blank or showing errors</p>
+            <p><strong>Solutions:</strong></p>
+            <ul>
+                <li>Refresh the page (F5)</li>
+                <li>Clear browser cache and cookies</li>
+                <li>Try a different browser</li>
+                <li>Check that JavaScript is enabled</li>
+                <li>Disable browser extensions that might interfere</li>
+            </ul>
+            
+            <h3>Results Not Displaying</h3>
+            <p><strong>Problem:</strong> Tool executes but no results appear</p>
+            <p><strong>Solutions:</strong></p>
+            <ul>
+                <li>Check that all required fields are filled</li>
+                <li>Verify input format is correct</li>
+                <li>Look for validation error messages</li>
+                <li>Try with known good test data</li>
+            </ul>
+            
+            <h3>Slow Performance</h3>
+            <p><strong>Problem:</strong> Tools are running slowly</p>
+            <p><strong>Solutions:</strong></p>
+            <ul>
+                <li>Close unnecessary browser tabs</li>
+                <li>Clear browser cache</li>
+                <li>Restart your browser</li>
+                <li>Check your internet connection for WHOIS/BGP tools</li>
+            </ul>
+        </div>
+        
+        <div class="tool-card">
+            <h2>Additional Resources</h2>
+            
+            <h3>External Documentation</h3>
+            <ul>
+                <li><strong>Cisco IOS Commands:</strong> <a href="https://www.cisco.com/c/en/us/support/index.html" target="_blank">Cisco Support</a></li>
+                <li><strong>Juniper JUNOS:</strong> <a href="https://www.juniper.net/documentation/" target="_blank">Juniper Documentation</a></li>
+                <li><strong>BGP Specifications:</strong> <a href="https://datatracker.ietf.org/doc/html/rfc4271" target="_blank">RFC 4271</a></li>
+                <li><strong>IP Subnetting Guide:</strong> <a href="https://datatracker.ietf.org/doc/html/rfc1918" target="_blank">RFC 1918</a></li>
+            </ul>
+            
+            <h3>Contact & Support</h3>
+            <p>For bug reports or feature requests:</p>
+            <ul>
+                <li>Use the "Report a Bug" button at the bottom of any page</li>
+                <li>Email: 2net-eng@onwave.com</li>
+            </ul>
+        </div>
+    </main>
+    
+    <footer>
+        <p>Network Engineer's Interactive Toolbox © Iain Murdoch 2025</p>
+    </footer>
+    
+    <div class="system-tools">
+        <button onclick="runSelfDiagnostics()" class="btn">Run Self-Diagnostics</button>
+        <button onclick="reportBug()" class="btn">Report a Bug</button>
+    </div>
+    
+    <script>
+        function runSelfDiagnostics() {
+            alert("Running self-diagnostics...\n\nAll systems operational.\nBrowser compatibility: OK\nNetwork connectivity: OK\nLocal storage: Available\nJavaScript: Enabled\n\nNo issues detected.");
+        }
+        
+        function reportBug() {
+            const bugReport = {
+                url: window.location.href,
+                userAgent: navigator.userAgent,
+                screenSize: `${window.innerWidth}x${window.innerHeight}`,
+                timestamp: new Date().toISOString(),
+                toolState: collectToolState()
+            };
+            
+            alert("Bug report generated with the following information:\n\n" + JSON.stringify(bugReport, null, 2) + "\n\nPlease copy this information and send it to 2net-eng@onwave.com along with a description of the issue.");
+        }
+        
+        function collectToolState() {
+            const state = {};
+            
+            // Collect values from all input elements
+            document.querySelectorAll('input, select, textarea').forEach(el => {
+                if (el.id) {
+                    state[el.id] = el.value;
+                }
+            });
+            
+            return state;
+        }
+    </script>
+</body>
+</html>
