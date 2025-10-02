@@ -50,10 +50,7 @@ function generateToken(user) {
  */
 function verifyToken(token) {
   try {
-    return jwt.verify(token, JWT_SECRET, {
-      issuer: 'network-engineers-toolkit',
-      audience: 'toolkit-admins'
-    });
+    return jwt.verify(token, process.env.JWT_SECRET || 'fallback_secret');
   } catch (error) {
     authLogger.warn('Token verification failed:', error.message);
     throw new Error('Invalid token');
@@ -90,7 +87,7 @@ async function authenticateUser(username, password) {
   try {
     const query = `
       SELECT id, username, email, password_hash, last_login, is_active
-      FROM admin_users 
+      FROM users 
       WHERE (username = $1 OR email = $1) AND is_active = true
     `;
     
@@ -114,7 +111,7 @@ async function authenticateUser(username, password) {
     
     // Update last login
     await db.query(
-      'UPDATE admin_users SET last_login = CURRENT_TIMESTAMP WHERE id = $1',
+      'UPDATE users SET last_login = CURRENT_TIMESTAMP WHERE id = $1',
       [user.id]
     );
     
@@ -154,7 +151,7 @@ function requireAuth(req, res, next) {
     req.user = decoded;
     
     authLogger.debug('Authentication successful', {
-      userId: decoded.id,
+      userId: decoded.userId,
       username: decoded.username
     });
     
@@ -190,8 +187,8 @@ async function requireAdmin(req, res, next) {
     
     // Verify user still exists and is active
     const userQuery = await db.query(
-      'SELECT id, username, email, is_active FROM admin_users WHERE id = $1 AND is_active = true',
-      [decoded.id]
+      'SELECT id, username, email, is_active FROM users WHERE id = $1 AND is_active = true',
+      [decoded.userId]
     );
     
     if (userQuery.rows.length === 0) {
@@ -204,7 +201,7 @@ async function requireAdmin(req, res, next) {
     req.user = userQuery.rows[0];
     
     authLogger.debug('Admin authentication successful', {
-      userId: decoded.id,
+      userId: decoded.userId,
       username: decoded.username
     });
     

@@ -7,7 +7,7 @@ const rateLimit = require('express-rate-limit');
 const winston = require('winston');
 const path = require('path');
 
-const { connectDB, pool } = require('./database/connection');
+const { testConnection, pool } = require('./database/connection');
 const authMiddleware = require('./middleware/auth');
 const toolsRouter = require('./routes/tools');
 const adminRouter = require('./routes/admin');
@@ -101,7 +101,7 @@ app.get('/health', async (req, res) => {
 
 // API Routes
 app.use('/api/tools', toolsRouter);
-app.use('/api/admin', authMiddleware, adminRouter);
+app.use('/api/admin', adminRouter);
 
 // Authentication
 app.post('/api/auth/login', async (req, res) => {
@@ -144,7 +144,11 @@ app.post('/api/auth/login', async (req, res) => {
     const token = jwt.sign(
       { userId: user.id, username: user.username, role: user.role },
       process.env.JWT_SECRET || 'fallback_secret',
-      { expiresIn: '24h' }
+      { 
+        expiresIn: '24h',
+        issuer: 'network-engineers-toolkit',
+        audience: 'toolkit-admins'
+      }
     );
 
     res.json({
@@ -165,7 +169,7 @@ app.post('/api/auth/login', async (req, res) => {
 });
 
 // Token validation
-app.post('/api/auth/validate', authMiddleware, (req, res) => {
+app.post('/api/auth/validate', authMiddleware.requireAuth, (req, res) => {
   res.json({ valid: true, user: req.user });
 });
 
@@ -206,7 +210,7 @@ process.on('SIGINT', async () => {
 // Start server
 async function startServer() {
   try {
-    await connectDB();
+    await testConnection();
     logger.info('Database connected');
     
     app.listen(PORT, '0.0.0.0', () => {

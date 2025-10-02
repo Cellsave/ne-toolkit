@@ -519,7 +519,4 @@ async function getDecryptedApiKey(providerId, keyType = 'api_key') {
   }
 }
 
-module.exports = {
-  router,
-  getDecryptedApiKey
-};
+module.exports = router;

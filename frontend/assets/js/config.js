@@ -4,7 +4,7 @@
 
 const CONFIG = {
     // API Configuration
-    API_BASE_URL: window.location.origin + '/api',
+    API_BASE_URL: 'http://localhost:3000/api',
     
     // Authentication
     TOKEN_KEY: 'nettools_token',
