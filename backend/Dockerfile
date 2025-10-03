@@ -14,6 +14,9 @@ RUN addgroup -g 1001 -S nodejs && adduser -S nettools -u 1001
 # Copy package files
 COPY package*.json ./
 
+RUN apk add --no-cache --virtual .build-deps python3 make g++ \
+    && npm ci --only=production && npm cache clean --force \
+    && apk del .build-deps
 # Install dependencies
 RUN npm ci --only=production && npm cache clean --force
 
