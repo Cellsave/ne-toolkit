@@ -2,7 +2,7 @@ const express = require('express');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 const { Pool } = require('pg');
-const { auth } = require('../middleware/auth');
+const { authenticateToken } = require('../middleware/auth');
 
 const router = express.Router();
 const pool = new Pool({
@@ -53,7 +53,7 @@ async function sendReferralEmail(refereeEmail, refereeName, referrerName, referr
 }
 
 // POST /api/referrals - Send referral invitation
-router.post('/', auth, async (req, res) => {
+router.post('/', authenticateToken, async (req, res) => {
     try {
         const { referee_email, referee_name, message } = req.body;
         const referrer_user_id = req.user.id;
