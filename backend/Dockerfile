@@ -1,4 +1,4 @@
-FROM node:18-alpine
+FROM node:18-slim
 
 LABEL maintainer="Network Engineers Toolkit"
 LABEL version="1.0.0"
@@ -6,10 +6,13 @@ LABEL version="1.0.0"
 WORKDIR /app
 
 # Install system dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends tini curl ca-certificates tzdata build-essential && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    tini curl ca-certificates tzdata build-essential python3 \
+    && rm -rf /var/lib/apt/lists/*
 
 # Create non-root user
-RUN addgroup --gid 1001 --system nodejs && adduser --uid 1001 --system --ingroup nodejs nettools
+RUN addgroup --system --gid 1001 nodejs && \
+    adduser --system --uid 1001 --ingroup nodejs nettools
 
 # Copy package files
 COPY package*.json ./
