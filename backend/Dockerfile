@@ -18,6 +18,8 @@ RUN apk add --no-cache --virtual .build-deps python3 make g++ gcc \
     && npm ci --only=production \
     && npm cache clean --force \
     && apk del .build-deps
+RUN apt-get update && apt-get install -y --no-install-recommends build-essential python3 && rm -rf /var/lib/apt/lists/*
+    
 # Install dependencies
 RUN npm ci --only=production && npm cache clean --force
 
