@@ -6,21 +6,14 @@ LABEL version="1.0.0"
 WORKDIR /app
 
 # Install system dependencies
-RUN apk add --no-cache tini curl ca-certificates tzdata
+RUN apt-get update && apt-get install -y --no-install-recommends tini curl ca-certificates tzdata build-essential && rm -rf /var/lib/apt/lists/*
 
 # Create non-root user
-RUN addgroup -g 1001 -S nodejs && adduser -S nettools -u 1001
+RUN addgroup --gid 1001 --system nodejs && adduser --uid 1001 --system --ingroup nodejs nettools
 
 # Copy package files
 COPY package*.json ./
 
-RUN apk add --no-cache --virtual .build-deps python3 make g++ gcc \
-    && ln -sf /usr/bin/python3 /usr/bin/python \
-    && npm ci --only=production \
-    && npm cache clean --force \
-    && apk del .build-deps
-RUN apt-get update && apt-get install -y --no-install-recommends build-essential python3 && rm -rf /var/lib/apt/lists/*
-    
 # Install dependencies
 RUN npm ci --only=production && npm cache clean --force
 
