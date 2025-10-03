@@ -18,7 +18,7 @@ COPY package*.json ./
 RUN npm ci --only=production && npm cache clean --force
 
 # Copy app files
-COPY --chown=nettools:nodejs . .
+COPY src ./src
 
 # Create directories
 RUN mkdir -p logs uploads && chown -R nettools:nodejs logs uploads
