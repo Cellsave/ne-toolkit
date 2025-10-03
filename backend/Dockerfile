@@ -24,7 +24,7 @@ RUN npm ci --only=production && npm cache clean --force
 COPY src ./src
 
 # Create directories
-RUN mkdir -p logs uploads && chown -R nettools:nodejs logs uploads
+
 
 # Switch to non-root user
 USER nettools
