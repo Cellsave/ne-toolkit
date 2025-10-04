@@ -129,7 +129,7 @@ router.post('/', authenticateToken, async (req, res) => {
 });
 
 // GET /api/referrals - Get user's referrals
-router.get('/', auth, async (req, res) => {
+router.get('/', authenticateToken, async (req, res) => {
     try {
         const referrer_user_id = req.user.id;
         
