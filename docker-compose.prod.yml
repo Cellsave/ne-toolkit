@@ -9,6 +9,11 @@ services:
       - "3000:3000"
     environment:
       - NODE_ENV=production
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
       - DATABASE_URL=postgres://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}
       - ENCRYPTION_KEY=${ENCRYPTION_KEY}
       - JWT_SECRET=${JWT_SECRET}
@@ -19,7 +24,8 @@ services:
       - FROM_EMAIL=${FROM_EMAIL}
       - APP_URL=${APP_URL}
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     restart: unless-stopped
     volumes:
       - ./logs:/app/logs
@@ -36,6 +42,11 @@ services:
       - postgres_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     
   nginx:
     image: nginx:alpine
@@ -52,4 +63,3 @@ services:
 
 volumes:
   postgres_data:
->>>>>>> 7c48fc6c3f5267dc474466e7be62d71a5dbec3ca
