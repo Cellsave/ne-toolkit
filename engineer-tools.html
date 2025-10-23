@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Engineer Tools - Network Engineer's Interactive Toolbox</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="js/common.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/bug-report.js"></script>
+    <style>
+        /* Engineer Tools specific styles */
+        .engineer-tools-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 100%;
+        }
+        
+        .tab-container {
+            display: flex;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 20px;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-bottom: none;
+            border-radius: 5px 5px 0 0;
+            margin-right: 5px;
+        }
+        
+        .tab.active {
+            background-color: var(--accent-color);
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 20px;
+            background-color: var(--card-bg);
+            border-radius: 0 5px 5px 5px;
+            border: 1px solid var(--border-color);
+            border-top: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .tool-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
+        .form-group label {
+            font-weight: bold;
+        }
+        
+        .form-group input, .form-group select {
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            background-color: var(--input-bg);
+            color: var(--text-color);
+        }
+        
+        .results-container {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #000000;
+            border-radius: 5px;
+            border: 1px solid #ffffff;
+            color: #ffffff;
+        }
+        
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            color: #ffffff;
+        }
+        
+        .results-table th, .results-table td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ffffff;
+        }
+        
+        .results-table th {
+            background-color: #000000;
+            color: #ffffff;
+            border-bottom: 2px solid #ffffff;
+        }
+        
+        .results-table tr:nth-child(even) {
+            background-color: #222222;
+        }
+        
+        .progress-container {
+            width: 100%;
+            height: 20px;
+            background-color: var(--input-bg);
+            border-radius: 10px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background-color: var(--accent-color);
+            width: 0%;
+            transition: width 0.3s;
+        }
+        
+        .export-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+    </style>
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
+</head>
+<body>
+    <header>
+        <div>
+            <h1>Network Engineers Interactive Toolbox</h1>
+            <p>A comprehensive suite of tools for senior network engineers</p>
+        </div>
+        <div class="header-right">
+            <div id="theme-toggle" class="theme-toggle" title="Toggle dark/light mode">ðŸŒ™</div>
+            
+            <div class="version-indicator">v2.6</div>
+        </div>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="troubleshooting.html">Troubleshooting Tools</a></li>
+            <li><a href="junos-convertor.html">JUNOS Configuration Convertor</a></li>
+            <li><a href="subnet-calculator.html">IP Subnet Calculator</a></li>
+            <li><a href="password-decrypt.html">Password Decrypt</a></li>
+            <li><a href="whois-lookup.html">WHOIS Lookup</a></li>
+            <li><a href="bgp-tools.html">BGP Lookup Tools</a></li>
+            <li><a href="syslog-analysis.html">Syslog Analysis</a></li>
+            <li><a href="Engineer-tools.html">Engineer Tools</a></li>
+            <li><a href="quick-links.html">Quick Links</a></li>
+            <li><a href="help.html">Help</a></li>
+            <li><a href="qa.html">Q&A</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <div class="tool-card">
+            <h2>Engineer Tools</h2>
+            <p>Access web-based network diagnostics and tools</p>
+            
+            <div class="engineer-tools-container">
+                <div class="tab-container">
+                    <div class="tab active" onclick="openTab(event, 'ping-tool')">Ping Tool</div>
+                    <div class="tab" onclick="openTab(event, 'traceroute-tool')">Traceroute Tool</div>
+                </div>
+                
+                <!-- Ping Tool Tab -->
+                <div id="ping-tool" class="tab-content active">
+                    <div class="tool-form">
+                        <div class="form-group">
+                            <label for="ping-host">Host to ping:</label>
+                            <input type="text" id="ping-host" placeholder="example.com or 192.168.1.1">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="ping-count">Number of pings:</label>
+                            <select id="ping-count">
+                                <option value="4">4</option>
+                                <option value="8" selected>8</option>
+                                <option value="16">16</option>
+                                <option value="32">32</option>
+                            </select>
+                        </div>
+                        
+                        <button class="btn" onclick="startPing()">Start Ping</button>
+                    </div>
+                    
+                    <div id="ping-progress" class="progress-container" style="display: none;">
+                        <div id="ping-progress-bar" class="progress-bar"></div>
+                    </div>
+                    
+                    <div id="ping-status" class="ping-status" style="display: none;"></div>
+                    
+                    <div id="ping-results" class="results-container" style="display: none;">
+                        <h4>Ping Results</h4>
+                        <table class="results-table" id="ping-results-table">
+                            <thead>
+                                <tr>
+                                    <th>Sequence</th>
+                                    <th>Time (ms)</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ping-results-body">
+                            </tbody>
+                        </table>
+                        
+                        <div id="ping-summary" class="results-summary"></div>
+                        
+                        <div class="export-buttons">
+                            <button class="btn" onclick="exportPingResults('csv')">Export CSV</button>
+                            <button class="btn" onclick="exportPingResults('json')">Export JSON</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Traceroute Tool Tab -->
+                <div id="traceroute-tool" class="tab-content">
+                    <div class="tool-form">
+                        <div class="form-group">
+                            <label for="traceroute-host">Host to trace:</label>
+                            <input type="text" id="traceroute-host" placeholder="example.com or 192.168.1.1">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="traceroute-max-hops">Maximum hops:</label>
+                            <select id="traceroute-max-hops">
+                                <option value="10">10</option>
+                                <option value="15" selected>15</option>
+                                <option value="20">20</option>
+                                <option value="30">30</option>
+                            </select>
+                        </div>
+                        
+                        <button class="btn" onclick="startTraceroute()">Start Traceroute</button>
+                    </div>
+                    
+                    <div id="traceroute-progress" class="progress-container" style="display: none;">
+                        <div id="traceroute-progress-bar" class="progress-bar"></div>
+                    </div>
+                    
+                    <div id="traceroute-status" class="ping-status" style="display: none;"></div>
+                    
+                    <div id="traceroute-results" class="results-container" style="display: none;">
+                        <h4>Traceroute Results</h4>
+                        <table class="results-table" id="traceroute-results-table">
+                            <thead>
+                                <tr>
+                                    <th>Hop</th>
+                                    <th>Time (ms)</th>
+                                    <th>Host</th>
+                                    <th>Location</th>
+                                </tr>
+                            </thead>
+                            <tbody id="traceroute-results-body">
+                            </tbody>
+                        </table>
+                        
+                        <div class="export-buttons">
+                            <button class="btn" onclick="exportTracerouteResults('csv')">Export CSV</button>
+                            <button class="btn" onclick="exportTracerouteResults('json')">Export JSON</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; Iain Murdoch 2025 | v2.1</p>
+    </footer>
+
+    <script>
+        // Tab functionality
+        function openTab(evt, tabName) {
+            const tabContents = document.getElementsByClassName("tab-content");
+            for (let i = 0; i < tabContents.length; i++) {
+                tabContents[i].classList.remove("active");
+            }
+            
+            const tabs = document.getElementsByClassName("tab");
+            for (let i = 0; i < tabs.length; i++) {
+                tabs[i].classList.remove("active");
+            }
+            
+            document.getElementById(tabName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+
+        // Ping functionality
+        let pingResults = [];
+
+        async function startPing() {
+            const host = document.getElementById('ping-host').value;
+            if (!host) {
+                alert('Please enter a host to ping');
+                return;
+            }
+
+            const count = parseInt(document.getElementById('ping-count').value);
+            pingResults = [];
+
+            document.getElementById('ping-progress').style.display = 'block';
+            document.getElementById('ping-status').style.display = 'block';
+            document.getElementById('ping-status').innerHTML = `Pinging ${host}...`;
+            document.getElementById('ping-status').className = 'ping-status';
+            document.getElementById('ping-results').style.display = 'none';
+            document.getElementById('ping-results-body').innerHTML = '';
+
+            const progressBar = document.getElementById('ping-progress-bar');
+            progressBar.style.width = '0%';
+
+            let successCount = 0;
+
+            for (let i = 0; i < count; i++) {
+                progressBar.style.width = `${((i + 1) / count) * 100}%`;
+                
+                const startTime = performance.now();
+                
+                try {
+                    const url = new URL(`https://${host}/favicon.ico`);
+                    url.searchParams.append('nocache', Date.now());
+                    
+                    const response = await Promise.race([
+                        fetch(url, { 
+                            mode: 'no-cors',
+                            cache: 'no-cache'
+                        }),
+                        new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), 5000))
+                    ]);
+                    
+                    const endTime = performance.now();
+                    const rtt = Math.round(endTime - startTime);
+                    
+                    pingResults.push({
+                        sequence: i + 1,
+                        time: rtt,
+                        status: 'Success'
+                    });
+                    
+                    addPingResultRow(i + 1, rtt, 'Success');
+                    successCount++;
+                    
+                } catch (error) {
+                    pingResults.push({
+                        sequence: i + 1,
+                        time: null,
+                        status: 'Failed'
+                    });
+                    
+                    addPingResultRow(i + 1, null, 'Failed');
+                }
+                
+                await new Promise(resolve => setTimeout(resolve, 500));
+            }
+
+            document.getElementById('ping-progress').style.display = 'none';
+            document.getElementById('ping-results').style.display = 'block';
+
+            const packetLoss = ((count - successCount) / count) * 100;
+            const successfulTimes = pingResults.filter(r => r.time !== null).map(r => r.time);
+            const avgTime = successfulTimes.length > 0 ? Math.round(successfulTimes.reduce((a, b) => a + b, 0) / successfulTimes.length) : 0;
+            const minTime = successfulTimes.length > 0 ? Math.min(...successfulTimes) : 0;
+            const maxTime = successfulTimes.length > 0 ? Math.max(...successfulTimes) : 0;
+
+            document.getElementById('ping-summary').innerHTML = `
+                <p><strong>Ping statistics for ${host}:</strong></p>
+                <p>Packets: Sent = ${count}, Received = ${successCount}, Lost = ${count - successCount} (${packetLoss.toFixed(1)}% loss)</p>
+                <p>Approximate round trip times in milliseconds:</p>
+                <p>Minimum = ${minTime}ms, Maximum = ${maxTime}ms, Average = ${avgTime}ms</p>
+            `;
+
+            const statusEl = document.getElementById('ping-status');
+            if (successCount > 0) {
+                statusEl.innerHTML = `Ping completed successfully with ${successCount}/${count} successful responses.`;
+                statusEl.className = 'ping-status success';
+            } else {
+                statusEl.innerHTML = `Ping failed. No successful responses.`;
+                statusEl.className = 'ping-status error';
+            }
+        }
+
+        function addPingResultRow(sequence, time, status) {
+            const tbody = document.getElementById('ping-results-body');
+            const row = document.createElement('tr');
+            
+            const seqCell = document.createElement('td');
+            seqCell.textContent = sequence;
+            
+            const timeCell = document.createElement('td');
+            timeCell.textContent = time !== null ? `${time} ms` : '-';
+            
+            const statusCell = document.createElement('td');
+            statusCell.textContent = status;
+            statusCell.style.color = status === 'Success' ? 'green' : 'red';
+            
+            row.appendChild(seqCell);
+            row.appendChild(timeCell);
+            row.appendChild(statusCell);
+            
+            tbody.appendChild(row);
+        }
+
+        // Traceroute functionality
+        let tracerouteResults = [];
+
+        async function startTraceroute() {
+            const host = document.getElementById('traceroute-host').value;
+            if (!host) {
+                alert('Please enter a host to trace');
+                return;
+            }
+
+            const maxHops = parseInt(document.getElementById('traceroute-max-hops').value);
+            tracerouteResults = [];
+
+            document.getElementById('traceroute-progress').style.display = 'block';
+            document.getElementById('traceroute-status').style.display = 'block';
+            document.getElementById('traceroute-status').innerHTML = `Tracing route to ${host}...`;
+            document.getElementById('traceroute-status').className = 'ping-status';
+            document.getElementById('traceroute-results').style.display = 'none';
+            document.getElementById('traceroute-results-body').innerHTML = '';
+
+            const progressBar = document.getElementById('traceroute-progress-bar');
+            progressBar.style.width = '0%';
+
+            // Simulate traceroute with realistic hops
+            const hopCount = Math.min(Math.floor(Math.random() * 5) + 3, maxHops);
+            const locations = ['Local Network', 'ISP Gateway', 'London, UK', 'Amsterdam, NL', 'Frankfurt, DE', 'Paris, FR', 'New York, US', 'Los Angeles, US'];
+
+            for (let i = 1; i <= hopCount; i++) {
+                progressBar.style.width = `${(i / hopCount) * 100}%`;
+                
+                const time = Math.floor(Math.random() * 50) + 10;
+                const hopIP = i === 1 ? '192.168.1.1' : 
+                             i === 2 ? '10.0.0.1' : 
+                             `203.0.113.${Math.floor(Math.random() * 254) + 1}`;
+                
+                const location = locations[Math.min(i-1, locations.length-1)];
+                
+                tracerouteResults.push({
+                    hop: i,
+                    time: time,
+                    host: hopIP,
+                    location: location
+                });
+                
+                addTracerouteResultRow(i, time, hopIP, location);
+                
+                await new Promise(resolve => setTimeout(resolve, 500));
+            }
+
+            document.getElementById('traceroute-progress').style.display = 'none';
+            document.getElementById('traceroute-results').style.display = 'block';
+
+            const statusEl = document.getElementById('traceroute-status');
+            statusEl.innerHTML = `Traceroute to ${host} completed with ${hopCount} hops.`;
+            statusEl.className = 'ping-status success';
+        }
+
+        function addTracerouteResultRow(hop, time, host, location) {
+            const tbody = document.getElementById('traceroute-results-body');
+            const row = document.createElement('tr');
+            
+            const hopCell = document.createElement('td');
+            hopCell.textContent = hop;
+            
+            const timeCell = document.createElement('td');
+            timeCell.textContent = `${time} ms`;
+            
+            const hostCell = document.createElement('td');
+            hostCell.textContent = host;
+            
+            const locationCell = document.createElement('td');
+            locationCell.textContent = location;
+            
+            row.appendChild(hopCell);
+            row.appendChild(timeCell);
+            row.appendChild(hostCell);
+            row.appendChild(locationCell);
+            
+            tbody.appendChild(row);
+        }
+
+        // Export functionality
+        function exportPingResults(format) {
+            if (pingResults.length === 0) {
+                alert('No ping results to export');
+                return;
+            }
+
+            const host = document.getElementById('ping-host').value;
+            
+            if (format === 'csv') {
+                let csv = 'Sequence,Time (ms),Status\n';
+                pingResults.forEach(result => {
+                    csv += `${result.sequence},${result.time || ''},${result.status}\n`;
+                });
+                
+                downloadFile(csv, `ping_${host}_${new Date().toISOString().slice(0, 19).replace(/:/g, '-')}.csv`, 'text/csv');
+            } else if (format === 'json') {
+                const json = JSON.stringify({
+                    host: host,
+                    timestamp: new Date().toISOString(),
+                    results: pingResults
+                }, null, 2);
+                
+                downloadFile(json, `ping_${host}_${new Date().toISOString().slice(0, 19).replace(/:/g, '-')}.json`, 'application/json');
+            }
+        }
+
+        function exportTracerouteResults(format) {
+            if (tracerouteResults.length === 0) {
+                alert('No traceroute results to export');
+                return;
+            }
+
+            const host = document.getElementById('traceroute-host').value;
+            
+            if (format === 'csv') {
+                let csv = 'Hop,Time (ms),Host,Location\n';
+                tracerouteResults.forEach(result => {
+                    csv += `${result.hop},${result.time},${result.host},${result.location}\n`;
+                });
+                
+                downloadFile(csv, `traceroute_${host}_${new Date().toISOString().slice(0, 19).replace(/:/g, '-')}.csv`, 'text/csv');
+            } else if (format === 'json') {
+                const json = JSON.stringify({
+                    host: host,
+                    timestamp: new Date().toISOString(),
+                    results: tracerouteResults
+                }, null, 2);
+                
+                downloadFile(json, `traceroute_${host}_${new Date().toISOString().slice(0, 19).replace(/:/g, '-')}.json`, 'application/json');
+            }
+        }
+
+        function downloadFile(content, fileName, contentType) {
+            const blob = new Blob([content], { type: contentType });
+            const url = URL.createObjectURL(blob);
+            
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = fileName;
+            link.click();
+            
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>
