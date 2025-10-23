@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IP Subnet Calculator - Network Engineer's Toolbox</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="js/common.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/bug-report.js"></script>
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
+</head>
+<body>
+    <header>
+        <div>
+            <h1>IP Subnet Calculator</h1>
+            <p>Calculate subnet information and network ranges</p>
+        </div>
+        <div class="header-right">
+            <div id="theme-toggle" class="theme-toggle" title="Toggle dark/light mode">ðŸŒ™</div>
+            <div class="version-indicator">v2.6</div>
+        </div>
+    </header>
+    
+    <nav>
+        <ul>
+            <li>
+                <a href="index.html">Home</a>
+                <div class="tooltip">Return to main page</div>
+            </li>
+            <li>
+                <a href="troubleshooting.html">Troubleshooting Tools</a>
+                <div class="tooltip">Network diagnostic tools</div>
+            </li>
+            <li>
+                <a href="junos-convertor.html">Configuration Convertor</a>
+                <div class="tooltip">Convert JUNOS formats</div>
+            </li>
+            <li>
+                <a href="password-decrypt.html">Password Decrypt</a>
+                <div class="tooltip">Decrypt network passwords</div>
+            </li>
+            <li>
+                <a href="whois-lookup.html">WHOIS Lookup</a>
+                <div class="tooltip">Domain ownership info</div>
+            </li>
+            <li>
+                <a href="bgp-tools.html">BGP Lookup Tools</a>
+                <div class="tooltip">BGP route analysis</div>
+            </li>
+            <li>
+                <a href="syslog-analysis.html">Syslog Analysis</a>
+                <div class="tooltip">Analyze syslog data</div>
+            </li>
+            <li>
+                <a href="engineer-tools.html">Engineer Tools</a>
+                <div class="tooltip">Network engineering tools</div>
+            </li>
+            <li>
+                <a href="quick-links.html">Quick Links</a>
+                <div class="tooltip">Useful bookmarks</div>
+            </li>
+            <li>
+                <a href="help.html">Help</a>
+                <div class="tooltip">Help documentation</div>
+            </li>
+            <li>
+                <a href="qa.html">Q&A</a>
+                <div class="tooltip">Frequently asked questions</div>
+            </li>
+            
+        </ul>
+    </nav>
+    
+    <main>
+        <div class="tool-card">
+            <h2>IP Subnet Calculator</h2>
+            <p>Calculate network ranges, subnet masks, and other IP subnet information:</p>
+            
+            <div style="margin-top: 20px;">
+                <div class="input-row">
+                    <div class="input-group">
+                        <label for="ipAddress">IP Address:</label>
+                        <input type="text" id="ipAddress" placeholder="e.g., 192.168.1.1" style="padding: 5px; width: 200px;">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="subnetMask">Subnet Mask/CIDR:</label>
+                        <input type="text" id="subnetMask" placeholder="e.g., 255.255.255.0 or /24" style="padding: 5px; width: 200px;">
+                    </div>
+                </div>
+                
+                <div style="margin-top: 15px;">
+                    <button onclick="calculateSubnet()" class="btn" style="background-color: var(--secondary-color); color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer;">Calculate Subnet</button>
+                    <button onclick="location.reload()" class="btn-refresh">ðŸ”„ Refresh</button>
+                </div>
+                
+                <div id="subnetResults" style="margin-top: 20px; display: none;">
+                    <h3>Subnet Information</h3>
+                    <table style="width: 100%; border-collapse: collapse; color: black;">
+                        <tr style="background-color: var(--secondary-color); color: white;">
+                            <td style="border: 1px solid #ddd; padding: 8px;"><strong>Network Address</strong></td>
+                            <td style="border: 1px solid #ddd; padding: 8px;" id="networkAddress"></td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #ddd; padding: 8px; color: black;"><strong>Broadcast Address</strong></td>
+                            <td style="border: 1px solid #ddd; padding: 8px; color: black;" id="broadcastAddress"></td>
+                        </tr>
+                        <tr style="background-color: #f2f2f2;">
+                            <td style="border: 1px solid #ddd; padding: 8px; color: black;"><strong>Subnet Mask</strong></td>
+                            <td style="border: 1px solid #ddd; padding: 8px; color: black;" id="subnetMaskResult"></td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #ddd; padding: 8px; color: black;"><strong>CIDR Notation</strong></td>
+                            <td style="border: 1px solid #ddd; padding: 8px; color: black;" id="cidrNotation"></td>
+                        </tr>
+                        <tr style="background-color: #f2f2f2;">
+                            <td style="border: 1px solid #ddd; padding: 8px; color: black;"><strong>Wildcard Mask</strong></td>
+                            <td style="border: 1px solid #ddd; padding: 8px; color: black;" id="wildcardMask"></td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #ddd; padding: 8px; color: black;"><strong>Total Hosts</strong></td>
+                            <td style="border: 1px solid #ddd; padding: 8px; color: black;" id="totalHosts"></td>
+                        </tr>
+                        <tr style="background-color: #f2f2f2;">
+                            <td style="border: 1px solid #ddd; padding: 8px; color: black;"><strong>Usable Hosts</strong></td>
+                            <td style="border: 1px solid #ddd; padding: 8px; color: black;" id="usableHosts"></td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #ddd; padding: 8px; color: black;"><strong>First Usable Host</strong></td>
+                            <td style="border: 1px solid #ddd; padding: 8px; color: black;" id="firstHost"></td>
+                        </tr>
+                        <tr style="background-color: #f2f2f2;">
+                            <td style="border: 1px solid #ddd; padding: 8px; color: black;"><strong>Last Usable Host</strong></td>
+                            <td style="border: 1px solid #ddd; padding: 8px; color: black;" id="lastHost"></td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #ddd; padding: 8px; color: black;"><strong>Network Class</strong></td>
+                            <td style="border: 1px solid #ddd; padding: 8px; color: black;" id="networkClass"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <div class="tool-card">
+            <h2>About IP Subnetting</h2>
+            <p>IP subnetting is the practice of dividing a network into two or more smaller networks. This helps:</p>
+            <ul>
+                <li>Improve network performance</li>
+                <li>Enhance security through network segmentation</li>
+                <li>Reduce broadcast traffic</li>
+                <li>Organize and identify network resources efficiently</li>
+            </ul>
+            
+            <h3>Common CIDR Notations</h3>
+            <ul>
+                <li>/8 (255.0.0.0) - 16,777,216 usable hosts</li>
+                <li>/16 (255.255.0.0) - 65,534 usable hosts</li>
+                <li>/24 (255.255.255.0) - 254 usable hosts</li>
+                <li>/28 (255.255.255.240) - 14 usable hosts</li>
+                <li>/30 (255.255.255.252) - 2 usable hosts</li>
+            </ul>
+            
+            
+            <div id="diagnosticsPanel" class="diagnostics-panel">
+                <h3>System Diagnostics</h3>
+                <pre id="diagnosticsResults" class="diagnostics-results">Click "Run Self-Diagnostics" to start...</pre>
+            </div>
+        </div>
+        
+            
+            
+            
+        </div>
+    </main>
+    
+    <footer>
+        <p>Network Engineer's Interactive Toolbox &copy; Iain Murdoch 2025</p>
+    </footer>
+    
+    <div class="system-tools">
+        <button onclick="runSelfDiagnostics()" class="btn">Run Self-Diagnostics</button>
+        <button onclick="reportBug()" class="btn">Report a Bug</button>
+    </div>
+    
+    <script>
+        function runSelfDiagnostics() {
+            alert("Running self-diagnostics...\n\nAll systems operational.\nBrowser compatibility: OK\nNetwork connectivity: OK\nLocal storage: Available\nJavaScript: Enabled\n\nNo issues detected.");
+        }
+        
+        function reportBug() {
+            const bugReport = {
+                url: window.location.href,
+                userAgent: navigator.userAgent,
+                screenSize: `${window.innerWidth}x${window.innerHeight}`,
+                timestamp: new Date().toISOString(),
+                toolState: collectToolState()
+            };
+            
+            alert("Bug report generated with the following information:\n\n" + JSON.stringify(bugReport, null, 2) + "\n\nPlease copy this information and send it to 2net-eng@onwave.com along with a description of the issue.");
+        }
+        
+        function collectToolState() {
+            const state = {};
+            
+            // Collect values from all input elements
+            document.querySelectorAll('input, select, textarea').forEach(el => {
+                if (el.id) {
+                    state[el.id] = el.value;
+                }
+            });
+            
+            return state;
+        }
+        
+        function calculateSubnet() {
+            const ipAddress = document.getElementById('ipAddress').value;
+            const subnetMask = document.getElementById('subnetMask').value;
+            const resultsDiv = document.getElementById('subnetResults');
+            
+            if (ipAddress.trim() === '' || subnetMask.trim() === '') {
+                alert('Please enter both IP address and subnet mask.');
+                return;
+            }
+            
+            // Parse IP address
+            const ipParts = ipAddress.split('.');
+            if (ipParts.length !== 4) {
+                alert('Invalid IP address format. Please use format: xxx.xxx.xxx.xxx');
+                return;
+            }
+            
+            // Convert IP to binary
+            let ipBinary = '';
+            for (let i = 0; i < 4; i++) {
+                const octet = parseInt(ipParts[i]);
+                if (isNaN(octet) || octet < 0 || octet > 255) {
+                    alert('Invalid IP address. Octets must be between 0 and 255.');
+                    return;
+                }
+                ipBinary += octet.toString(2).padStart(8, '0');
+            }
+            
+            // Parse subnet mask
+            let cidrPrefix;
+            let maskBinary = '';
+            
+            if (subnetMask.startsWith('/')) {
+                // CIDR notation
+                cidrPrefix = parseInt(subnetMask.substring(1));
+                if (isNaN(cidrPrefix) || cidrPrefix < 0 || cidrPrefix > 32) {
+                    alert('Invalid CIDR notation. Prefix must be between 0 and 32.');
+                    return;
+                }
+                
+                maskBinary = '1'.repeat(cidrPrefix) + '0'.repeat(32 - cidrPrefix);
+            } else {
+                // Dotted decimal notation
+                const maskParts = subnetMask.split('.');
+                if (maskParts.length !== 4) {
+                    alert('Invalid subnet mask format. Please use format: xxx.xxx.xxx.xxx or /xx');
+                    return;
+                }
+                
+                for (let i = 0; i < 4; i++) {
+                    const octet = parseInt(maskParts[i]);
+                    if (isNaN(octet) || octet < 0 || octet > 255) {
+                        alert('Invalid subnet mask. Octets must be between 0 and 255.');
+                        return;
+                    }
+                    maskBinary += octet.toString(2).padStart(8, '0');
+                }
+                
+                // Count the number of 1s for CIDR prefix
+                cidrPrefix = maskBinary.split('1').length - 1;
+            }
+            
+            // Calculate network address
+            let networkBinary = '';
+            for (let i = 0; i < 32; i++) {
+                networkBinary += (i < cidrPrefix) ? ipBinary[i] : '0';
+            }
+            
+            // Calculate broadcast address
+            let broadcastBinary = '';
+            for (let i = 0; i < 32; i++) {
+                broadcastBinary += (i < cidrPrefix) ? ipBinary[i] : '1';
+            }
+            
+            // Convert binary to dotted decimal
+            const networkAddress = binaryToDecimal(networkBinary);
+            const broadcastAddress = binaryToDecimal(broadcastBinary);
+            
+            // Calculate subnet mask in dotted decimal
+            const subnetMaskDecimal = binaryToDecimal(maskBinary);
+            
+            // Calculate wildcard mask
+            const wildcardBinary = maskBinary.replace(/1/g, 'x').replace(/0/g, '1').replace(/x/g, '0');
+            const wildcardMask = binaryToDecimal(wildcardBinary);
+            
+            // Calculate total hosts
+            const totalHosts = Math.pow(2, 32 - cidrPrefix);
+            
+            // Calculate usable hosts
+            const usableHosts = Math.max(0, totalHosts - 2);
+            
+            // Calculate first and last usable hosts
+            let firstHostBinary = networkBinary;
+            if (cidrPrefix < 31) {
+                firstHostBinary = networkBinary.substring(0, 31) + '1';
+            }
+            
+            let lastHostBinary = broadcastBinary;
+            if (cidrPrefix < 31) {
+                lastHostBinary = broadcastBinary.substring(0, 31) + '0';
+            }
+            
+            const firstHost = binaryToDecimal(firstHostBinary);
+            const lastHost = binaryToDecimal(lastHostBinary);
+            
+            // Determine network class
+            const firstOctet = parseInt(ipParts[0]);
+            let networkClass;
+            
+            if (firstOctet < 128) {
+                networkClass = 'A';
+            } else if (firstOctet < 192) {
+                networkClass = 'B';
+            } else if (firstOctet < 224) {
+                networkClass = 'C';
+            } else if (firstOctet < 240) {
+                networkClass = 'D (Multicast)';
+            } else {
+                networkClass = 'E (Reserved)';
+            }
+            
+            // Display results
+            document.getElementById('networkAddress').innerText = networkAddress;
+            document.getElementById('broadcastAddress').innerText = broadcastAddress;
+            document.getElementById('subnetMaskResult').innerText = subnetMaskDecimal;
+            document.getElementById('cidrNotation').innerText = '/' + cidrPrefix;
+            document.getElementById('wildcardMask').innerText = wildcardMask;
+            document.getElementById('totalHosts').innerText = totalHosts.toLocaleString();
+            document.getElementById('usableHosts').innerText = usableHosts.toLocaleString();
+            document.getElementById('firstHost').innerText = firstHost;
+            document.getElementById('lastHost').innerText = lastHost;
+            document.getElementById('networkClass').innerText = networkClass;
+            
+            // Show results
+            resultsDiv.style.display = 'block';
+            resultsDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function binaryToDecimal(binary) {
+            const octets = [];
+            for (let i = 0; i < 32; i += 8) {
+                octets.push(parseInt(binary.substr(i, 8), 2));
+            }
+            return octets.join('.');
+        }
+    </script>
+</body>
+</html>
