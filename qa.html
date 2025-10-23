@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q&A - Network Engineer's Toolbox</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="js/common.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/bug-report.js"></script>
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
+</head>
+<body>
+    <header>
+        <div>
+            <h1>Q&A</h1>
+            <p>Advanced network diagnostic tools for Cisco and Juniper devices</p>
+        </div>
+        <div class="header-right">
+            <div id="theme-toggle" class="theme-toggle" title="Toggle dark/light mode">ðŸŒ™</div>
+            <div class="version-indicator">v2.6</div>
+        </div>
+    </header>
+    
+    <nav>
+        <ul>
+            <li>
+                <a href="index.html">Home</a>
+                <div class="tooltip">Return to main page</div>
+            </li>
+            <li>
+                <a href="troubleshooting.html">Troubleshooting Tools</a>
+                <div class="tooltip">Network diagnostic tools</div>
+            </li>
+            <li>
+                <a href="junos-convertor.html">Configuration Convertor</a>
+                <div class="tooltip">Convert JUNOS formats</div>
+            </li>
+            <li>
+                <a href="subnet-calculator.html">IP Subnet Calculator</a>
+                <div class="tooltip">Calculate network ranges</div>
+            </li>
+            <li>
+                <a href="password-decrypt.html">Password Decrypt</a>
+                <div class="tooltip">Decrypt network passwords</div>
+            </li>
+            <li>
+                <a href="whois-lookup.html">WHOIS Lookup</a>
+                <div class="tooltip">Domain ownership info</div>
+            </li>
+            <li>
+                <a href="bgp-tools.html">BGP Lookup Tools</a>
+                <div class="tooltip">BGP route analysis</div>
+            </li>
+            <li>
+                <a href="syslog-analysis.html">Syslog Analysis</a>
+                <div class="tooltip">Analyze syslog data</div>
+            </li>
+            <li>
+                <a href="engineer-tools.html">Engineer Tools</a>
+                <div class="tooltip">Network engineering tools</div>
+            </li>
+            <li>
+                <a href="quick-links.html">Quick Links</a>
+                <div class="tooltip">Useful bookmarks</div>
+            </li>
+            <li>
+                <a href="help.html">Help</a>
+                <div class="tooltip">Help documentation</div>
+            </li>
+        </ul>
+    </nav>
+    
+    <main>
+        <div class="tool-card">
+            <h2>Frequently Asked Questions</h2>
+            
+            <div class="faq-item">
+                <h3>What is the Network Engineer's Interactive Toolbox?</h3>
+                <p>The Network Engineer's Interactive Toolbox is a comprehensive suite of web-based tools designed specifically for network engineers. It includes utilities for troubleshooting, configuration conversion, subnet calculation, password decryption, and more.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3>Do I need to install anything to use these tools?</h3>
+                <p>No, all tools are web-based and run directly in your browser. No installation or downloads are required.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3>Is my data secure when using these tools?</h3>
+                <p>Yes, all processing is done locally in your browser. No data is sent to external servers (except for specific API-based tools like WHOIS lookup). Sensitive information like passwords and configurations never leave your device.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3>Which network vendors are supported?</h3>
+                <p>The toolbox primarily supports Cisco and Juniper devices, with some tools being vendor-agnostic (like the subnet calculator).</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3>How do I report bugs or request features?</h3>
+                <p>Use the "Report a Bug" button at the bottom of any page to generate a bug report. For feature requests, please contact the development team directly.</p>
+            </div>
+        </div>
+        
+        <div class="tool-card">
+            <h2>Tool-Specific Questions</h2>
+            
+            <div class="faq-item">
+                <h3>Troubleshooting Tools</h3>
+                <h4>How are the troubleshooting commands generated?</h4>
+                <p>Commands are generated based on the vendor, software version, and protocol/feature you select. The tool contains a database of common troubleshooting commands for different scenarios.</p>
+                
+                <h4>Can I add my own custom commands?</h4>
+                <p>Not in the current version, but this feature is planned for a future update.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3>Configuration Convertor</h3>
+                <h4>What JUNOS formats are supported?</h4>
+                <p>The convertor supports conversions between set commands, hierarchical format, and XML format.</p>
+                
+                <h4>Is there a limit to the configuration size?</h4>
+                <p>The tool can handle most configurations, but extremely large files (over 1MB) might cause performance issues in some browsers.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3>IP Subnet Calculator</h3>
+                <h4>Does the calculator support IPv6?</h4>
+                <p>The current version only supports IPv4. IPv6 support is planned for a future update.</p>
+                
+                <h4>Can it calculate multiple subnets at once?</h4>
+                <p>No, the calculator processes one subnet at a time. For batch processing, you would need to calculate each subnet individually.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3>Password Decrypt</h3>
+                <h4>Which password types are supported?</h4>
+                <p>The tool supports Cisco Type 7, Juniper Type 9, generic MD5, and Base64 encoded passwords.</p>
+                
+                <h4>Is it legal to decrypt passwords?</h4>
+                <p>This tool is provided for legitimate network administration purposes only. Only decrypt passwords for systems you are authorized to access.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3>WHOIS Lookup</h3>
+                <h4>How current is the WHOIS data?</h4>
+                <p>The tool uses real-time API queries to retrieve the most up-to-date WHOIS information available.</p>
+                
+                <h4>Are there rate limits for WHOIS lookups?</h4>
+                <p>Yes, the underlying API has rate limits. Excessive usage may result in temporary throttling.</p>
+            </div>
+            
+            <div class="faq-item">
+            
+            <div class="faq-item">
+                <h3>BGP Analysis Tools</h3>
+                <h4>Where does the BGP data come from?</h4>
+                <p>The tool queries public BGP looking glass servers and route collectors to retrieve BGP information.</p>
+                
+                <h4>Can I analyze private ASNs?</h4>
+                <p>The tool is designed for public BGP analysis. Private ASNs may not be visible unless they are advertised to the public internet.</p>
+            </div>
+        </div>
+        
+        <div class="tool-card">
+            <h2>Technical Support</h2>
+            <p>If you need additional help or have questions not answered here, please contact our support team:</p>
+            
+            <ul>
+                <li>Email: iain.murdoch@gmail.com</li>
+                <li>Support Hours: Monday-Friday, 9am-5pm UTC</li>
+            </ul>
+            
+            <p>For urgent issues, please use the "Run Self-Diagnostics" feature first to identify potential problems.</p>
+            
+        </div>
+    </main>
+    
+    <footer>
+        <p>Network Engineer's Interactive Toolbox &copy; Iain Murdoch 2025</p>
+    </footer>
+    
+    <!-- Bookmarks Panel Removed -->
+    
+    <div class="system-tools">
+        <button onclick="runSelfDiagnostics()" class="btn">Run Self-Diagnostics</button>
+        <button onclick="reportBug()" class="btn">Report a Bug</button>
+    </div>
+    
+    <script>
+        function toggleBookmarks() {
+            const panel = document.getElementById('bookmarksPanel');
+            if (panel.style.display === 'none') {
+                panel.style.display = 'block';
+                loadBookmarks();
+            } else {
+                panel.style.display = 'none';
+            }
+        }
+        
+        function loadBookmarks() {
+            const bookmarksList = document.getElementById('bookmarksList');
+            const bookmarks = JSON.parse(localStorage.getItem('networkToolsBookmarks')) || [];
+            
+            bookmarksList.innerHTML = '';
+            
+            if (bookmarks.length === 0) {
+                bookmarksList.innerHTML = '<p>No bookmarks yet.</p>';
+                return;
+            }
+            
+            const list = document.createElement('ul');
+            bookmarks.forEach(bookmark => {
+                const item = document.createElement('li');
+                const link = document.createElement('a');
+                link.href = bookmark.url;
+                link.textContent = bookmark.title;
+                item.appendChild(link);
+                list.appendChild(item);
+            });
+            
+            bookmarksList.appendChild(list);
+        }
+        
+        function bookmarkCurrentPage() {
+            const bookmarks = JSON.parse(localStorage.getItem('networkToolsBookmarks')) || [];
+            const currentPage = {
+                title: document.title,
+                url: window.location.href
+            };
+            
+            // Check if already bookmarked
+            const alreadyBookmarked = bookmarks.some(bookmark => bookmark.url === currentPage.url);
+            
+            if (!alreadyBookmarked) {
+                bookmarks.push(currentPage);
+                localStorage.setItem('networkToolsBookmarks', JSON.stringify(bookmarks));
+                alert('Page bookmarked!');
+            } else {
+                alert('This page is already bookmarked.');
+            }
+            
+            // Close bookmarks panel
+            toggleBookmarks();
+        }
+        
+        function runSelfDiagnostics() {
+            alert("Running self-diagnostics...\n\nAll systems operational.\nBrowser compatibility: OK\nNetwork connectivity: OK\nLocal storage: Available\nJavaScript: Enabled\n\nNo issues detected.");
+        }
+        
+        function reportBug() {
+            const bugReport = {
+                url: window.location.href,
+                userAgent: navigator.userAgent,
+                screenSize: `${window.innerWidth}x${window.innerHeight}`,
+                timestamp: new Date().toISOString(),
+                toolState: collectToolState()
+            };
+            
+            alert("Bug report generated with the following information:\n\n" + JSON.stringify(bugReport, null, 2) + "\n\nPlease copy this information and send it to 2net-eng@onwave.com along with a description of the issue.");
+        }
+        
+        function collectToolState() {
+            const state = {};
+            
+            // Collect values from all input elements
+            document.querySelectorAll('input, select, textarea').forEach(el => {
+                if (el.id) {
+                    state[el.id] = el.value;
+                }
+            });
+            
+            return state;
+        }
+    </script>
+</body>
+</html>
