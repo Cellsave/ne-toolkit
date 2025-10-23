@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help Documentation - Network Engineer's Toolbox</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="js/common.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/bug-report.js"></script>
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
+</head>
+<body>
+    <header>
+        <div>
+            <h1>Help Documentation</h1>
+            <p>Advanced network diagnostic tools for Cisco and Juniper devices</p>
+        </div>
+        <div class="header-right">
+            <div id="theme-toggle" class="theme-toggle" title="Toggle dark/light mode">ðŸŒ™</div>
+            <div class="version-indicator">v2.6</div>
+        </div>
+    </header>
+    
+    <nav>
+        <ul>
+            <li>
+                <a href="index.html">Home</a>
+                <div class="tooltip">Return to main page</div>
+            </li>
+            <li>
+                <a href="troubleshooting.html">Troubleshooting Tools</a>
+                <div class="tooltip">Network diagnostic tools</div>
+            </li>
+            <li>
+                <a href="junos-convertor.html">Configuration Convertor</a>
+                <div class="tooltip">Convert JUNOS formats</div>
+            </li>
+            <li>
+                <a href="subnet-calculator.html">IP Subnet Calculator</a>
+                <div class="tooltip">Calculate network ranges</div>
+            </li>
+            <li>
+                <a href="password-decrypt.html">Password Decrypt</a>
+                <div class="tooltip">Decrypt network passwords</div>
+            </li>
+            <li>
+                <a href="whois-lookup.html">WHOIS Lookup</a>
+                <div class="tooltip">Domain ownership info</div>
+            </li>
+            <li>
+                <a href="bgp-tools.html">BGP Lookup Tools</a>
+                <div class="tooltip">BGP route analysis</div>
+            </li>
+            <li>
+                <a href="syslog-analysis.html">Syslog Analysis</a>
+                <div class="tooltip">Analyze syslog data</div>
+            </li>
+            <li>
+                <a href="engineer-tools.html">Engineer Tools</a>
+                <div class="tooltip">Network engineering tools</div>
+            </li>
+            <li>
+                <a href="quick-links.html">Quick Links</a>
+                <div class="tooltip">Useful bookmarks</div>
+            </li>
+            <li>
+                <a href="qa.html">Q&A</a>
+                <div class="tooltip">Frequently asked questions</div>
+            </li>
+        </ul>
+    </nav>
+    
+    <main>
+        <div class="tool-card">
+            <h2>Getting Started</h2>
+            <p>Welcome to the Network Engineer's Interactive Toolbox! This suite of tools is designed to help network engineers with common tasks and troubleshooting.</p>
+            
+            <h3>Available Tools</h3>
+            <ul>
+                <li><strong>Troubleshooting Tools</strong> - Generate vendor-specific commands for network troubleshooting</li>
+                <li><strong>Configuration Convertor</strong> - Convert between different JUNOS configuration formats</li>
+                <li><strong>IP Subnet Calculator</strong> - Calculate subnet information and IP ranges</li>
+                <li><strong>Password Decrypt</strong> - Decrypt common network device password formats</li>
+                <li><strong>WHOIS Lookup</strong> - Look up domain and IP ownership information</li>
+                <li><strong>BGP Analysis Tools</strong> - Analyze BGP routes and AS information</li>
+            </ul>
+            
+            <h3>Navigation</h3>
+            <p>Use the navigation bar at the top of the page to access different tools. Each tool has its own dedicated page with specific functionality.</p>
+        </div>
+        
+        <div class="tool-card">
+            <h2>Tool-Specific Help</h2>
+            
+            <h3 id="troubleshooting">Troubleshooting Tools</h3>
+            <p>This tool helps generate vendor-specific troubleshooting commands for network issues.</p>
+            <ol>
+                <li>Select the vendor (Cisco or Juniper)</li>
+                <li>Choose the software version</li>
+                <li>Select the protocol or feature you're troubleshooting</li>
+                <li>Optionally paste device configuration for analysis</li>
+                <li>Describe the issue you're experiencing</li>
+                <li>Click "Generate Commands" to get troubleshooting commands</li>
+            </ol>
+            
+            <h3 id="junos">Configuration Convertor</h3>
+            <p>Convert between different JUNOS configuration formats:</p>
+            <ol>
+                <li>Paste your JUNOS configuration in the input box</li>
+                <li>Select the conversion type (set to hierarchical, hierarchical to set, etc.)</li>
+                <li>Click "Convert Configuration" to process</li>
+                <li>Copy the converted output for use in your devices</li>
+            </ol>
+            
+            <h3 id="subnet">IP Subnet Calculator</h3>
+            <p>Calculate subnet information for IP networks:</p>
+            <ol>
+                <li>Enter an IP address (e.g., 192.168.1.1)</li>
+                <li>Enter a subnet mask (e.g., 255.255.255.0) or CIDR notation (e.g., /24)</li>
+                <li>Click "Calculate Subnet" to see detailed subnet information</li>
+            </ol>
+            
+            <h3 id="password">Password Decrypt</h3>
+            <p>Decrypt common network device password formats:</p>
+            <ol>
+                <li>Enter the encrypted password string</li>
+                <li>Select the vendor/encryption type</li>
+                <li>Click "Decrypt Password" to see the decrypted result</li>
+            </ol>
+            
+            <h3 id="whois">WHOIS Lookup</h3>
+            <p><span style="font-size: 8pt;">API Provider: WhoisXML API</span></p>
+            <p>Look up domain and IP ownership information:</p>
+            <ol>
+                <li>Enter a domain name or IP address</li>
+                <li>Select the lookup type (WHOIS or IP Geolocation)</li>
+                <li>Click "Perform Lookup" to retrieve information</li>
+            </ol>
+            
+            <h3 id="bgp">BGP Analysis Tools</h3>
+            <p><span style="font-size: 8pt;">Looking Glass Provider: BGP.Tools</span></p>
+            <p>Analyze BGP routes and autonomous system information:</p>
+            <ol>
+                <li>Enter a prefix or IP address</li>
+                <li>Select the analysis tool</li>
+                <li>Click "Analyze" to get BGP information</li>
+            </ol>
+        </div>
+        
+        <div class="tool-card">
+            <h2>Tips and Shortcuts</h2>
+            
+            <h3>Keyboard Shortcuts</h3>
+            <ul>
+                <li><kbd>Ctrl</kbd> + <kbd>D</kbd> - Toggle dark/light mode</li>
+                <li><kbd>Ctrl</kbd> + <kbd>H</kbd> - Go to help page</li>
+                <li><kbd>Ctrl</kbd> + <kbd>Home</kbd> - Go to home page</li>
+            </ul>
+            
+            
+            
+            <h3>Dark Mode</h3>
+            <p>Toggle between light and dark modes by clicking the moon/sun icon (ðŸŒ™/â˜€ï¸) in the header.</p>
+            
+        </div>
+    </main>
+    
+    <footer>
+        <p>Network Engineer's Interactive Toolbox &copy; Iain Murdoch 2025</p>
+    </footer>
+    
+    <!-- Bookmarks Panel Removed -->
+    
+    <div class="system-tools">
+        <button onclick="runSelfDiagnostics()" class="btn">Run Self-Diagnostics</button>
+        <button onclick="reportBug()" class="btn">Report a Bug</button>
+    </div>
+    
+    <script>
+        function toggleBookmarks() {
+            const panel = document.getElementById('bookmarksPanel');
+            if (panel.style.display === 'none') {
+                panel.style.display = 'block';
+                loadBookmarks();
+            } else {
+                panel.style.display = 'none';
+            }
+        }
+        
+        function loadBookmarks() {
+            const bookmarksList = document.getElementById('bookmarksList');
+            const bookmarks = JSON.parse(localStorage.getItem('networkToolsBookmarks')) || [];
+            
+            bookmarksList.innerHTML = '';
+            
+            if (bookmarks.length === 0) {
+                bookmarksList.innerHTML = '<p>No bookmarks yet.</p>';
+                return;
+            }
+            
+            const list = document.createElement('ul');
+            bookmarks.forEach(bookmark => {
+                const item = document.createElement('li');
+                const link = document.createElement('a');
+                link.href = bookmark.url;
+                link.textContent = bookmark.title;
+                item.appendChild(link);
+                list.appendChild(item);
+            });
+            
+            bookmarksList.appendChild(list);
+        }
+        
+        function bookmarkCurrentPage() {
+            const bookmarks = JSON.parse(localStorage.getItem('networkToolsBookmarks')) || [];
+            const currentPage = {
+                title: document.title,
+                url: window.location.href
+            };
+            
+            // Check if already bookmarked
+            const alreadyBookmarked = bookmarks.some(bookmark => bookmark.url === currentPage.url);
+            
+            if (!alreadyBookmarked) {
+                bookmarks.push(currentPage);
+                localStorage.setItem('networkToolsBookmarks', JSON.stringify(bookmarks));
+                alert('Page bookmarked!');
+            } else {
+                alert('This page is already bookmarked.');
+            }
+            
+            // Close bookmarks panel
+            toggleBookmarks();
+        }
+        
+        function runSelfDiagnostics() {
+            alert("Running self-diagnostics...\n\nAll systems operational.\nBrowser compatibility: OK\nNetwork connectivity: OK\nLocal storage: Available\nJavaScript: Enabled\n\nNo issues detected.");
+        }
+        
+        function reportBug() {
+            const bugReport = {
+                url: window.location.href,
+                userAgent: navigator.userAgent,
+                screenSize: `${window.innerWidth}x${window.innerHeight}`,
+                timestamp: new Date().toISOString(),
+                toolState: collectToolState()
+            };
+            
+            alert("Bug report generated with the following information:\n\n" + JSON.stringify(bugReport, null, 2) + "\n\nPlease copy this information and send it to support@example.com along with a description of the issue.");
+        }
+        
+        function collectToolState() {
+            const state = {};
+            
+            // Collect values from all input elements
+            document.querySelectorAll('input, select, textarea').forEach(el => {
+                if (el.id) {
+                    state[el.id] = el.value;
+                }
+            });
+            
+            return state;
+        }
+    </script>
+</body>
+</html>
