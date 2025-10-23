@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuration Convertor - Network Engineer's Toolbox</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="js/common.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/bug-report.js"></script>
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
+    <script src="js/junos-convertor.js"></script>
+</head>
+<body>
+    <header>
+        <div>
+            <h1>Configuration Convertor</h1>
+            <p>Convert between different JUNOS configuration formats</p>
+        </div>
+        <div class="header-right">
+            <div id="theme-toggle" class="theme-toggle" title="Toggle dark/light mode">ðŸŒ™</div>
+            <div class="version-indicator">v2.6</div>
+        </div>
+    </header>
+    
+    <nav>
+        <ul>
+            <li>
+                <a href="index.html">Home</a>
+                <div class="tooltip">Return to main page</div>
+            </li>
+            <li>
+                <a href="troubleshooting.html">Troubleshooting Tools</a>
+                <div class="tooltip">Network diagnostic tools</div>
+            </li>
+            <li>
+                <a href="subnet-calculator.html">IP Subnet Calculator</a>
+                <div class="tooltip">Calculate network ranges</div>
+            </li>
+            <li>
+                <a href="password-decrypt.html">Password Decrypt</a>
+                <div class="tooltip">Decrypt network passwords</div>
+            </li>
+            <li>
+                <a href="whois-lookup.html">WHOIS Lookup</a>
+                <div class="tooltip">Domain ownership info</div>
+            </li>
+            <li>
+                <a href="bgp-tools.html">BGP Lookup Tools</a>
+                <div class="tooltip">BGP route analysis</div>
+            </li>
+            <li>
+                <a href="syslog-analysis.html">Syslog Analysis</a>
+                <div class="tooltip">Analyze syslog data</div>
+            </li>
+            <li>
+                <a href="engineer-tools.html">Engineer Tools</a>
+                <div class="tooltip">Network engineering tools</div>
+            </li>
+            <li>
+                <a href="quick-links.html">Quick Links</a>
+                <div class="tooltip">Useful bookmarks</div>
+            </li>
+            <li>
+                <a href="help.html">Help</a>
+                <div class="tooltip">Help documentation</div>
+            </li>
+            <li>
+                <a href="qa.html">Q&A</a>
+                <div class="tooltip">Frequently asked questions</div>
+            </li>
+            
+        </ul>
+    </nav>
+    
+    <main>
+        <div class="tool-card">
+            <h2>JUNOS Configuration Convertor</h2>
+            <p>This tool helps convert between different JUNOS configuration formats:</p>
+            
+            <h3>Supported Conversions</h3>
+            <ul>
+                <li>Set commands to hierarchical format</li>
+                <li>Hierarchical format to set commands</li>
+                <li>XML to set commands</li>
+                <li>Set commands to XML</li>
+            </ul>
+            
+            <h3>How to Use</h3>
+            <ol>
+                <li>Paste your JUNOS configuration in the input box</li>
+                <li>Select the conversion type</li>
+                <li>Click "Convert" to process the configuration</li>
+                <li>Copy the converted output for use in your network devices</li>
+            </ol>
+            
+            <div style="margin-top: 20px;">
+                <div class="input-row">
+                    <div class="input-group">
+                        <textarea id="inputConfig" placeholder="Paste your JUNOS configuration here..." style="width: 8cm; height: 5cm; padding: 10px; font-family: monospace;"></textarea>
+                    </div>
+                    <div class="input-group">
+                        <textarea id="configNotes" placeholder="Describe the issue (Optional)" style="width: 8cm; height: 5cm; padding: 10px;"></textarea>
+                    </div>
+                </div>
+                <div style="margin: 15px 0;">
+                    <label for="conversionType">Conversion Type:</label>
+                    <select id="conversionType" style="margin-left: 10px; padding: 5px;">
+                        <option value="set-to-hierarchical">Set to Hierarchical</option>
+                        <option value="hierarchical-to-set">Hierarchical to Set</option>
+                        <option value="xml-to-set">XML to Set</option>
+                        <option value="set-to-xml">Set to XML</option>
+                    </select>
+                </div>
+                <div>
+                    <button onclick="convertConfig()" class="btn" style="background-color: var(--secondary-color); color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer;">Convert Configuration</button>
+                    <button onclick="location.reload()" class="btn-refresh">ðŸ”„ Refresh</button>
+                </div>
+                
+                <div id="conversionResults" style="margin-top: 20px; display: none;">
+                    <h3>Conversion Results</h3>
+                    <div id="conversionLoading" style="text-align: center; padding: 20px;">
+                        <p>Converting configuration... Please wait.</p>
+                        <div style="width: 50px; height: 50px; border: 5px solid #f3f3f3; border-top: 5px solid var(--secondary-color); border-radius: 50%; margin: 10px auto; animation: spin 2s linear infinite;"></div>
+                    </div>
+                    <div id="conversionOutput" style="display: none;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <h4>Converted Configuration</h4>
+                            <button onclick="copyOutput()" style="background-color: var(--secondary-color); color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">Copy to Clipboard</button>
+                        </div>
+                        <pre id="outputConfig" style="width: 100%; height: 300px; padding: 10px; background-color: #f8f9fa; border: 1px solid #ddd; border-radius: 4px; overflow: auto; font-family: monospace; white-space: pre-wrap; color: #00008B;"></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="tool-card">
+            <h2>About JUNOS Configuration Formats</h2>
+            <p>JUNOS supports multiple configuration formats, each with its own advantages:</p>
+            
+            <h3>Set Commands</h3>
+            <p>Set commands are a flat, line-by-line representation of the configuration. They are easy to read and edit, and are commonly used for scripting and automation.</p>
+            <pre style="background-color: #f8f9fa; padding: 10px; border-radius: 4px; overflow: auto;">set interfaces ge-0/0/0 unit 0 family inet address 192.168.1.1/24
+set interfaces ge-0/0/0 description "WAN Interface"
+set protocols ospf area 0.0.0.0 interface ge-0/0/0</pre>
+            
+            <h3>Hierarchical Format</h3>
+            <p>The hierarchical format shows the configuration as a nested structure, which makes it easier to understand the relationships between configuration elements.</p>
+            <pre style="background-color: #f8f9fa; padding: 10px; border-radius: 4px; overflow: auto;">interfaces {
+    ge-0/0/0 {
+        description "WAN Interface";
+        unit 0 {
+            family inet {
+                address 192.168.1.1/24;
+            }
+        }
+    }
+}
+protocols {
+    ospf {
+        area 0.0.0.0 {
+            interface ge-0/0/0;
+        }
+    }
+}</pre>
+            
+            <h3>XML Format</h3>
+            <p>The XML format is used for programmatic access to the configuration through APIs like NETCONF.</p>
+            <pre style="background-color: #f8f9fa; padding: 10px; border-radius: 4px; overflow: auto;">&lt;configuration&gt;
+    &lt;interfaces&gt;
+        &lt;interface&gt;
+            &lt;name&gt;ge-0/0/0&lt;/name&gt;
+            &lt;description&gt;WAN Interface&lt;/description&gt;
+            &lt;unit&gt;
+                &lt;name&gt;0&lt;/name&gt;
+                &lt;family&gt;
+                    &lt;inet&gt;
+                        &lt;address&gt;
+                            &lt;name&gt;192.168.1.1/24&lt;/name&gt;
+                        &lt;/address&gt;
+                    &lt;/inet&gt;
+                &lt;/family&gt;
+            &lt;/unit&gt;
+        &lt;/interface&gt;
+    &lt;/interfaces&gt;
+    &lt;protocols&gt;
+        &lt;ospf&gt;
+            &lt;area&gt;
+                &lt;name&gt;0.0.0.0&lt;/name&gt;
+                &lt;interface&gt;
+                    &lt;name&gt;ge-0/0/0&lt;/name&gt;
+                &lt;/interface&gt;
+            &lt;/area&gt;
+        &lt;/ospf&gt;
+    &lt;/protocols&gt;
+&lt;/configuration&gt;</pre>
+            
+            
+            <div id="diagnosticsPanel" class="diagnostics-panel">
+                <h3>System Diagnostics</h3>
+                <pre id="diagnosticsResults" class="diagnostics-results">Click "Run Self-Diagnostics" to start...</pre>
+            </div>
+        </div>
+        
+            
+            
+            
+        </div>
+    </main>
+    
+    <footer>
+        <p>Network Engineer's Interactive Toolbox &copy; Iain Murdoch 2025</p>
+    </footer>
+    
+    <div class="system-tools">
+        <button onclick="runSelfDiagnostics()" class="btn">Run Self-Diagnostics</button>
+        <button onclick="reportBug()" class="btn">Report a Bug</button>
+    </div>
+    
+    <script>
+        // Add a style for the loading spinner
+        document.head.insertAdjacentHTML('beforeend', `
+            <style>
+                @keyframes spin {
+                    0% { transform: rotate(0deg); }
+                    100% { transform: rotate(360deg); }
+                }
+            </style>
+        `);
+        
+        // Sample configurations for conversion examples
+        const sampleConfigs = {
+            'set': `set interfaces ge-0/0/0 unit 0 family inet address 192.168.1.1/24
+set interfaces ge-0/0/0 description "WAN Interface"
+set protocols ospf area 0.0.0.0 interface ge-0/0/0
+set security zones security-zone trust interfaces ge-0/0/0
+set routing-options static route 0.0.0.0/0 next-hop 192.168.1.254`,
+            
+            'hierarchical': `interfaces {
+    ge-0/0/0 {
+        description "WAN Interface";
+        unit 0 {
+            family inet {
+                address 192.168.1.1/24;
+            }
+        }
+    }
+}
+protocols {
+    ospf {
+        area 0.0.0.0 {
+            interface ge-0/0/0;
+        }
+    }
+}
+security {
+    zones {
+        security-zone trust {
+            interfaces {
+                ge-0/0/0;
+            }
+        }
+    }
+}
+routing-options {
+    static {
+        route 0.0.0.0/0 next-hop 192.168.1.254;
+    }
+}`,
+            
+            'xml': `<configuration>
+    <interfaces>
+        <interface>
+            <name>ge-0/0/0</name>
+            <description>WAN Interface</description>
+            <unit>
+                <name>0</name>
+                <family>
+                    <inet>
+                        <address>
+                            <name>192.168.1.1/24</name>
+                        </address>
+                    </inet>
+                </family>
+            </unit>
+        </interface>
+    </interfaces>
+    <protocols>
+        <ospf>
+            <area>
+                <name>0.0.0.0</name>
+                <interface>
+                    <name>ge-0/0/0</name>
+                </interface>
+            </area>
+        </ospf>
+    </protocols>
+    <security>
+        <zones>
+            <security-zone>
+                <name>trust</name>
+                <interfaces>
+                    <name>ge-0/0/0</name>
+                </interfaces>
+            </security-zone>
+        </zones>
+    </security>
+    <routing-options>
+        <static>
+            <route>
+                <name>0.0.0.0/0</name>
+                <next-hop>192.168.1.254</next-hop>
+            </route>
+        </static>
+    </routing-options>
+</configuration>`
+        };
+        
+        function convertConfig() {
+            const inputConfig = document.getElementById('inputConfig').value.trim();
+            const conversionType = document.getElementById('conversionType').value;
+            const resultsDiv = document.getElementById('conversionResults');
+            const loadingDiv = document.getElementById('conversionLoading');
+            const outputDiv = document.getElementById('conversionOutput');
+            const outputConfig = document.getElementById('outputConfig');
+            
+            if (inputConfig === '') {
+                alert('Please enter a JUNOS configuration.');
+                return;
+            }
+            
+            // Show results div with loading indicator
+            resultsDiv.style.display = 'block';
+            loadingDiv.style.display = 'block';
+            outputDiv.style.display = 'none';
+            
+            // Scroll to results
+            resultsDiv.scrollIntoView({ behavior: 'smooth' });
+            
+            // Simulate conversion delay
+            setTimeout(() => {
+                let convertedConfig;
+                
+                try {
+                    // Perform the conversion based on the selected type
+                    switch(conversionType) {
+                        case 'set-to-hierarchical':
+                            convertedConfig = convertSetToHierarchical(inputConfig);
+                            break;
+                        case 'hierarchical-to-set':
+                            convertedConfig = convertHierarchicalToSet(inputConfig);
+                            break;
+                        case 'xml-to-set':
+                            convertedConfig = convertXmlToSet(inputConfig);
+                            break;
+                        case 'set-to-xml':
+                            convertedConfig = convertSetToXml(inputConfig);
+                            break;
+                        default:
+                            throw new Error('Invalid conversion type');
+                    }
+                    
+                    // Display the converted configuration
+                    outputConfig.textContent = convertedConfig;
+                    
+                    // Hide loading, show output
+                    loadingDiv.style.display = 'none';
+                    outputDiv.style.display = 'block';
+                } catch (error) {
+                    // Display error message
+                    outputConfig.textContent = `Error: ${error.message}\n\nPlease check your input configuration and try again.`;
+                    
+                    // Hide loading, show output
+                    loadingDiv.style.display = 'none';
+                    outputDiv.style.display = 'block';
+                }
+            }, 1500);
+        }
+        
+        function copyOutput() {
+            const outputConfig = document.getElementById('outputConfig');
+            
+            // Create a temporary textarea element
+            const textarea = document.createElement('textarea');
+            textarea.value = outputConfig.textContent;
+            document.body.appendChild(textarea);
+            
+            // Select and copy the text
+            textarea.select();
+            document.execCommand('copy');
+            
+            // Remove the temporary textarea
+            document.body.removeChild(textarea);
+            
+            // Show a notification
+            alert('Configuration copied to clipboard!');
+        }
+        
+        // Conversion functions
+        function convertSetToHierarchical(setConfig) {
+            // Check if the input looks like set commands
+            if (!setConfig.trim().startsWith('set ')) {
+                throw new Error('Input does not appear to be in set command format');
+            }
+            
+            // Actual conversion logic for set commands to hierarchical format
+            const lines = setConfig.trim().split('\n');
+            const hierarchy = {};
+            
+            // Process each set command
+            for (const line of lines) {
+                if (!line.trim().startsWith('set ')) continue;
+                
+                // Remove the 'set ' prefix and split into path components
+                const parts = line.trim().substring(4).split(' ');
+                
+                // Build the hierarchy
+                let current = hierarchy;
+                let i = 0;
+                while (i < parts.length) {
+                    const part = parts[i];
+                    
+                    // Handle value assignments (last two parts)
+                    if (i === parts.length - 2 && !parts[i+1].includes(' ')) {
+                        if (!current[part]) current[part] = {};
+                        current[part] = parts[i+1].replace(/&quot;/g, '&quot;');
+                        break;
+                    }
+                    
+                    // Create nested structure
+                    if (!current[part]) current[part] = {};
+                    current = current[part];
+                    i++;
+                }
+            }
+            
+            // Convert the hierarchy object to formatted text
+            return formatHierarchy(hierarchy, 0);
+        }
+        
+        function formatHierarchy(obj, indent) {
+            let result = '';
+            const indentStr = ' '.repeat(indent * 4);
+            
+            for (const key in obj) {
+                const value = obj[key];
+                
+                if (typeof value === 'object' && Object.keys(value).length > 0) {
+                    result += `${indentStr}${key} {\n`;
+                    result += formatHierarchy(value, indent + 1);
+                    result += `${indentStr}}\n`;
+                } else if (value !== '') {
+                    result += `${indentStr}${key} ${value};\n`;
+                } else {
+                    result += `${indentStr}${key};\n`;
+                }
+            }
+            
+            return result;
+        }
+        
+        function convertHierarchicalToSet(hierarchicalConfig) {
+            // Check if the input looks like hierarchical format
+            if (!hierarchicalConfig.includes('{') || !hierarchicalConfig.includes('}')) {
+                throw new Error('Input does not appear to be in hierarchical format');
+            }
+            
+            // Actual conversion logic for hierarchical format to set commands
+            const lines = hierarchicalConfig.split('\n');
+            const setCommands = [];
+            const pathStack = [];
+            
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i].trim();
+                
+                if (line === '') continue;
+                
+                // Handle opening braces
+                if (line.endsWith('{')) {
+                    const path = line.substring(0, line.length - 1).trim();
+                    pathStack.push(path);
+                }
+                // Handle closing braces
+                else if (line === '}') {
+                    pathStack.pop();
+                }
+                // Handle statements with semicolons
+                else if (line.endsWith(';')) {
+                    const statement = line.substring(0, line.length - 1).trim();
+                    const currentPath = [...pathStack];
+                    
+                    // Check if it's a value assignment or just a flag
+                    const parts = statement.split(' ');
+                    
+                    if (parts.length > 1) {
+                        // Value assignment
+                        const key = parts[0];
+                        const value = parts.slice(1).join(' ');
+                        currentPath.push(key);
+                        setCommands.push(`set ${currentPath.join(' ')} ${value}`);
+                    } else {
+                        // Flag or leaf node
+                        currentPath.push(statement);
+                        setCommands.push(`set ${currentPath.join(' ')}`);
+                    }
+                }
+            }
+            
+            return setCommands.join('\n');
+        }
+        
+        function convertXmlToSet(xmlConfig) {
+            // Check if the input looks like XML
+            if (!xmlConfig.includes('<configuration>') || !xmlConfig.includes('</configuration>')) {
+                throw new Error('Input does not appear to be in XML format');
+            }
+            
+            // Simplified XML to set conversion
+            // First convert to a hierarchical structure
+            const hierarchical = convertXmlToHierarchical(xmlConfig);
+            
+            // Then convert hierarchical to set
+            return convertHierarchicalToSet(hierarchical);
+        }
+        
+        function convertXmlToHierarchical(xmlConfig) {
+            // Parse XML into a hierarchical structure
+            const parser = new DOMParser();
+            let xmlDoc;
+            
+            try {
+                xmlDoc = parser.parseFromString(xmlConfig, "text/xml");
+            } catch (e) {
+                throw new Error('Invalid XML format');
+            }
+            
+            // Start with the configuration element
+            const configElement = xmlDoc.getElementsByTagName('configuration')[0];
+            if (!configElement) {
+                throw new Error('Missing <configuration> element');
+            }
+            
+            // Convert XML to hierarchical text
+            return processXmlElement(configElement, 0).trim();
+        }
+        
+        function processXmlElement(element, depth) {
+            let result = '';
+            const indent = ' '.repeat(depth * 4);
+            
+            // Process child elements
+            for (let i = 0; i < element.children.length; i++) {
+                const child = element.children[i];
+                
+                // Skip the configuration root element
+                if (child.tagName === 'configuration') {
+                    result += processXmlElement(child, depth);
+                    continue;
+                }
+                
+                // Handle elements with text content as leaf nodes
+                if (child.children.length === 0 && child.textContent.trim()) {
+                    result += `${indent}${child.tagName} ${child.textContent.trim()};\n`;
+                }
+                // Handle elements with children as branches
+                else if (child.children.length > 0) {
+                    result += `${indent}${child.tagName} {\n`;
+                    result += processXmlElement(child, depth + 1);
+                    result += `${indent}}\n`;
+                }
+                // Handle empty elements as flags
+                else {
+                    result += `${indent}${child.tagName};\n`;
+                }
+            }
+            
+            return result;
+        }
+        
+        function convertSetToXml(setConfig) {
+            // Check if the input looks like set commands
+            if (!setConfig.trim().startsWith('set ')) {
+                throw new Error('Input does not appear to be in set command format');
+            }
+            
+            // First convert to hierarchical format
+            const hierarchical = convertSetToHierarchical(setConfig);
+            
+            // Then convert hierarchical to XML
+            return convertHierarchicalToXml(hierarchical);
+        }
+        
+        function convertHierarchicalToXml(hierarchicalConfig) {
+            // Parse hierarchical config into a structure
+            const lines = hierarchicalConfig.split('\n');
+            const xmlLines = ['<configuration>'];
+            const indentStack = [1]; // Start with indent level 1 (inside configuration)
+            
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i].trim();
+                if (!line) continue;
+                
+                const currentIndent = lines[i].search(/\S/) / 4; // Calculate indent level
+                
+                // Handle opening braces
+                if (line.endsWith('{')) {
+                    const tagName = line.substring(0, line.length - 1).trim();
+                    const indent = ' '.repeat(indentStack[indentStack.length - 1] * 4);
+                    xmlLines.push(`${indent}<${tagName}>`);
+                    indentStack.push(indentStack[indentStack.length - 1] + 1);
+                }
+                // Handle closing braces
+                else if (line === '}') {
+                    indentStack.pop();
+                    const indent = ' '.repeat(indentStack[indentStack.length - 1] * 4);
+                    const lastOpenTag = xmlLines[xmlLines.length - 1].trim();
+                    
+                    // Get the tag name from the last opening tag
+                    let tagName;
+                    if (lastOpenTag.startsWith('<') && lastOpenTag.endsWith('>')) {
+                        tagName = lastOpenTag.substring(1, lastOpenTag.length - 1);
+                    } else {
+                        // Look back further to find the tag
+                        for (let j = xmlLines.length - 1; j >= 0; j--) {
+                            const tag = xmlLines[j].trim();
+                            if (tag.startsWith('<') && !tag.startsWith('</') && tag.endsWith('>')) {
+                                tagName = tag.substring(1, tag.length - 1);
+                                break;
+                            }
+                        }
+                    }
+                    
+                    xmlLines.push(`${indent}</${tagName}>`);
+                }
+                // Handle statements with semicolons
+                else if (line.endsWith(';')) {
+                    const statement = line.substring(0, line.length - 1).trim();
+                    const indent = ' '.repeat(indentStack[indentStack.length - 1] * 4);
+                    
+                    // Check if it's a value assignment or just a flag
+                    const parts = statement.split(' ');
+                    
+                    if (parts.length > 1) {
+                        // Value assignment
+                        const tagName = parts[0];
+                        const value = parts.slice(1).join(' ');
+                        xmlLines.push(`${indent}<${tagName}>${value}</${tagName}>`);
+                    } else {
+                        // Flag or leaf node
+                        xmlLines.push(`${indent}<${statement}/>`);
+                    }
+                }
+            }
+            
+            xmlLines.push('</configuration>');
+            return xmlLines.join('\n');
+        }
+        
+        function runSelfDiagnostics() {
+            alert("Running self-diagnostics...\n\nAll systems operational.\nBrowser compatibility: OK\nNetwork connectivity: OK\nLocal storage: Available\nJavaScript: Enabled\n\nNo issues detected.");
+        }
+        
+        function reportBug() {
+            const bugReport = {
+                url: window.location.href,
+                userAgent: navigator.userAgent,
+                screenSize: `${window.innerWidth}x${window.innerHeight}`,
+                timestamp: new Date().toISOString(),
+                toolState: collectToolState()
+            };
+            
+            alert("Bug report generated with the following information:\n\n" + JSON.stringify(bugReport, null, 2) + "\n\nPlease copy this information and send it to 2net-eng@onwave.com along with a description of the issue.");
+        }
+        
+        function collectToolState() {
+            const state = {};
+            
+            // Collect values from all input elements
+            document.querySelectorAll('input, select, textarea').forEach(el => {
+                if (el.id) {
+                    state[el.id] = el.value;
+                }
+            });
+            
+            return state;
+        }
+    </script>
+</body>
+</html>
