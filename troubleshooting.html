@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Troubleshooting Tools - Network Engineer's Toolbox</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="js/common.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/bug-report.js"></script>
+    <style>
+        /* Additional styles specific to troubleshooting tools */
+        .input-section {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border-left: 5px solid var(--secondary-color);
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .command-group {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: var(--card-bg);
+            border-radius: 8px;
+            border-left: 4px solid #28a745;
+        }
+
+        .advanced-command {
+            border-left-color: var(--accent-color);
+        }
+
+        .command-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 10px;
+        }
+
+        .command-description {
+            margin-bottom: 15px;
+            font-size: 0.9em;
+        }
+
+        .command-syntax {
+            font-family: monospace;
+            background: var(--code-bg);
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin-bottom: 15px;
+        }
+
+        .command-example {
+            font-family: monospace;
+            background: var(--code-bg);
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin-bottom: 10px;
+        }
+
+        .command-notes {
+            font-size: 0.85em;
+            font-style: italic;
+            margin-top: 10px;
+        }
+
+        .vendor-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .vendor-tab {
+            padding: 10px 20px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 5px 5px 0 0;
+            cursor: pointer;
+            margin-right: 5px;
+        }
+
+        .vendor-tab.active {
+            background: var(--secondary-color);
+            color: white;
+            border-color: var(--secondary-color);
+        }
+
+        .vendor-content {
+            display: none;
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            border-radius: 0 5px 5px 5px;
+            margin-bottom: 30px;
+        }
+
+        .vendor-content.active {
+            display: block;
+        }
+
+        .protocol-select {
+            margin-bottom: 20px;
+        }
+
+        .protocol-select select {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid var(--border-color);
+            background: var(--input-bg);
+            color: var(--text-color);
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .search-box {
+            margin-bottom: 20px;
+        }
+
+        .search-box input {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid var(--border-color);
+            background: var(--input-bg);
+            color: var(--text-color);
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .command-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .command-list li {
+            margin-bottom: 5px;
+        }
+
+        .command-list a {
+            text-decoration: none;
+            color: var(--link-color);
+        }
+
+        .command-list a:hover {
+            text-decoration: underline;
+        }
+
+        .command-detail {
+            margin-top: 30px;
+            padding: 20px;
+            background: var(--card-bg);
+            border-radius: 8px;
+            border-left: 4px solid var(--secondary-color);
+        }
+
+        /* Horizontal layout for command groups */
+        .command-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .command-group {
+            flex: 1 1 300px;
+            max-width: 100%;
+        }
+        
+        /* Footer buttons */
+        .footer-buttons {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--bg-color);
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            z-index: 100;
+        }
+        
+        .footer-buttons button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: var(--secondary-color);
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .footer-buttons button:hover {
+            background-color: var(--hover-color);
+        }
+        
+        /* Add padding to main to prevent content from being hidden behind footer buttons */
+        main {
+            padding-bottom: 60px;
+        }
+    </style>
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
+</head>
+<body>
+    <header>
+        <div>
+            <h1>Network Engineers Interactive Toolbox</h1>
+            <p>A comprehensive suite of tools for senior network engineers</p>
+        </div>
+        <div class="header-right">
+            <div id="theme-toggle" class="theme-toggle" title="Toggle dark/light mode">ðŸŒ™</div>
+            <div class="version-indicator">v2.6</div>
+        </div>
+    </header>
+    
+    <nav>
+        <ul>
+            <li>
+                <a href="index.html">Home</a>
+                <div class="tooltip">Return to main page</div>
+            </li>
+            <li>
+                <a href="junos-convertor.html">Configuration Convertor</a>
+                <div class="tooltip">Convert configuration formats</div>
+            </li>
+            <li>
+                <a href="subnet-calculator.html">IP Subnet Calculator</a>
+                <div class="tooltip">Calculate network ranges</div>
+            </li>
+            <li>
+                <a href="password-decrypt.html">Password Decrypt</a>
+                <div class="tooltip">Decrypt network passwords</div>
+            </li>
+            <li>
+                <a href="whois-lookup.html">WHOIS Lookup</a>
+                <div class="tooltip">Domain ownership info</div>
+            </li>
+            <li>
+                <a href="bgp-tools.html">BGP Lookup Tools</a>
+                <div class="tooltip">BGP route analysis</div>
+            </li>
+            <li>
+                <a href="syslog-analysis.html">Syslog Analysis</a>
+                <div class="tooltip">Analyze syslog data</div>
+            </li>
+            <li>
+                <a href="engineer-tools.html">Engineer Tools</a>
+                <div class="tooltip">Ping and traceroute</div>
+            </li>
+            <li>
+                <a href="quick-links.html">Quick Links</a>
+                <div class="tooltip">Useful bookmarks</div>
+            </li>
+            <li>
+                <a href="help.html">Help</a>
+                <div class="tooltip">Documentation</div>
+            </li>
+            <li>
+                <a href="qa.html">Q&A</a>
+                <div class="tooltip">Frequently asked questions</div>
+            </li>
+        </ul>
+    </nav>
+    
+    <main>
+        <div class="tool-container">
+            <h2>Network Troubleshooting Tools</h2>
+            <p>Access a comprehensive database of network troubleshooting commands and procedures for various vendors and protocols.</p>
+            
+            <div class="input-section">
+                <div class="input-group">
+                    <label for="vendor-select">Select Vendor:</label>
+                    <select id="vendor-select" onchange="filterCommands()">
+                        <option value="all">All Vendors</option>
+                        <option value="cisco">Cisco</option>
+                        <option value="juniper">Juniper</option>
+                        <option value="arista">Arista</option>
+                        <option value="huawei">Huawei</option>
+                        <option value="nokia">Nokia (Alcatel-Lucent)</option>
+                    </select>
+                </div>
+                
+                <div class="input-group">
+                    <label for="protocol-select">Select Protocol/Technology:</label>
+                    <select id="protocol-select" onchange="filterCommands()">
+                        <option value="all">All Protocols</option>
+                        <option value="bgp">BGP</option>
+                        <option value="ospf">OSPF</option>
+                        <option value="mpls">MPLS</option>
+                        <option value="interface">Interfaces</option>
+                        <option value="qos">QoS</option>
+                        <option value="vpn">VPN</option>
+                        <option value="security">Security</option>
+                    </select>
+                </div>
+                
+                <div class="input-group">
+                    <label for="command-search">Search Commands:</label>
+                    <input type="text" id="command-search" placeholder="Type to search..." oninput="filterCommands()">
+                </div>
+            </div>
+            
+            <div id="command-results" class="command-container">
+                <!-- Commands will be populated here by JavaScript -->
+                <div class="loading">Loading command database...</div>
+            </div>
+        </div>
+    </main>
+    
+    <div class="footer-buttons">
+        <button onclick="runDiagnostics()">Run Self-Diagnostics</button>
+        <button onclick="reportBug()">Report a Bug</button>
+    </div>
+    
+    <footer>
+        <p>&copy; Iain Murdoch 2025 | v2.6</p>
+    </footer>
+    
+    <!-- Diagnostics Panel -->
+    <div id="diagnosticsPanel" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80%; max-width: 600px; background: var(--card-bg); padding: 20px; border-radius: 8px; box-shadow: 0 0 20px rgba(0,0,0,0.3); z-index: 1000;">
+        <h3>Self-Diagnostics Results</h3>
+        <pre id="diagnosticsResults" style="background: var(--code-bg); padding: 15px; border-radius: 5px; max-height: 300px; overflow-y: auto;"></pre>
+        <button onclick="document.getElementById('diagnosticsPanel').style.display = 'none';" style="padding: 8px 15px; background: var(--secondary-color); color: white; border: none; border-radius: 4px; cursor: pointer; margin-top: 10px;">Close</button>
+    </div>
+    
+    <script>
+        // Command database
+        const commandDatabase = [
+            {
+                vendor: 'cisco',
+                protocol: 'bgp',
+                title: 'Show BGP Summary',
+                description: 'Displays a summary of BGP connections and status',
+                syntax: 'show ip bgp summary',
+                example: 'Router# show ip bgp summary\nBGP router identifier 10.1.1.1, local AS number 65000\nBGP table version is 12, main routing table version 12\n2 network entries using 288 bytes of memory\n2 path entries using 104 bytes of memory\n2/1 BGP path/bestpath attribute entries using 248 bytes of memory\n1 BGP AS-PATH entries using 24 bytes of memory\n0 BGP route-map cache entries using 0 bytes of memory\n0 BGP filter-list cache entries using 0 bytes of memory\nBGP using 664 total bytes of memory\nBGP activity 2/0 prefixes, 2/0 paths, scan interval 60 secs\n\nNeighbor        V    AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd\n192.168.1.2     4 65001    1025    1024       12    0    0 00:15:12        1',
+                notes: 'Use this command to verify BGP neighbor relationships and check if routes are being received.'
+            },
+            {
+                vendor: 'cisco',
+                protocol: 'bgp',
+                title: 'Show BGP Routes',
+                description: 'Displays all BGP routes in the routing table',
+                syntax: 'show ip bgp',
+                example: 'Router# show ip bgp\nBGP table version is 12, local router ID is 10.1.1.1\nStatus codes: s suppressed, d damped, h history, * valid, > best, i - internal,\n              r RIB-failure, S Stale, m multipath, b backup-path, f RT-Filter,\n              x best-external, a additional-path, c RIB-compressed,\nOrigin codes: i - IGP, e - EGP, ? - incomplete\nDEVICE# show ip bgp\n   Network          Next Hop            Metric LocPrf Weight Path\n*> 10.0.0.0/24      192.168.1.2              0             0 65001 i\n*> 192.168.0.0      0.0.0.0                  0         32768 i',
+                notes: 'This command shows all BGP routes, including those not selected as best paths.'
+            },
+            {
+                vendor: 'juniper',
+                protocol: 'bgp',
+                title: 'Show BGP Summary',
+                description: 'Displays a summary of BGP connections and status',
+                syntax: 'show bgp summary',
+                example: 'user@router> show bgp summary\nGroups: 1 Peers: 1 Down peers: 0\nTable          Tot Paths  Act Paths Suppressed    History Damp State    Pending\ninet.0               2          1          0          0          0          0\nPeer                     AS      InPkt     OutPkt    OutQ   Flaps Last Up/Dwn State|#Active/Received/Accepted/Damped...\n192.168.1.2           65001       1025       1024       0       0     15:12 1/2/2/0              0/0/0/0',
+                notes: 'Use this command to verify BGP neighbor relationships and check if routes are being received.'
+            },
+            {
+                vendor: 'juniper',
+                protocol: 'bgp',
+                title: 'Show BGP Routes',
+                description: 'Displays all BGP routes in the routing table',
+                syntax: 'show route protocol bgp',
+                example: 'user@router> show route protocol bgp\n\ninet.0: 10 destinations, 11 routes (10 active, 0 holddown, 0 hidden)\n+ = Active Route, - = Last Active, * = Both\n\n10.0.0.0/24        *[BGP/170] 00:15:12, localpref 100, from 192.168.1.2\n                      AS path: 65001 I, validation-state: unverified\n                    > to 192.168.1.2 via ge-0/0/0.0',
+                notes: 'This command shows all BGP routes in the routing table.'
+            },
+            {
+                vendor: 'cisco',
+                protocol: 'ospf',
+                title: 'Show OSPF Neighbors',
+                description: 'Displays OSPF neighbor information',
+                syntax: 'show ip ospf neighbor',
+                example: 'Router# show ip ospf neighbor\n\nNeighbor ID     Pri   State           Dead Time   Address         Interface\n10.1.1.2        1   FULL/DR         00:00:33    192.168.1.2     GigabitEthernet0/0',
+                notes: 'Use this command to verify OSPF neighbor relationships.'
+            },
+            {
+                vendor: 'juniper',
+                protocol: 'ospf',
+                title: 'Show OSPF Neighbors',
+                description: 'Displays OSPF neighbor information',
+                syntax: 'show ospf neighbor',
+                example: 'user@router> show ospf neighbor\nAddress          Interface              State     ID               Pri  Dead\n192.168.1.2      ge-0/0/0.0             Full      10.1.1.2         128    33',
+                notes: 'Use this command to verify OSPF neighbor relationships.'
+            },
+            {
+                vendor: 'cisco',
+                protocol: 'interface',
+                title: 'Show Interface Status',
+                description: 'Displays status and statistics for interfaces',
+                syntax: 'show interfaces',
+                example: 'Router# show interfaces GigabitEthernet0/0\nGigabitEthernet0/0 is up, line protocol is up\n  Hardware is CN Gigabit Ethernet, address is 0050.56a4.a8c0 (bia 0050.56a4.a8c0)\n  Internet address is 192.168.1.1/24\n  MTU 1500 bytes, BW 1000000 Kbit/sec, DLY 10 usec,\n     reliability 255/255, txload 1/255, rxload 1/255\n  Encapsulation ARPA, loopback not set\n  Keepalive set (10 sec)\n  Full-duplex, 1000Mb/s, media type is RJ45\n  output flow-control is unsupported, input flow-control is unsupported\n  ARP type: ARPA, ARP Timeout 04:00:00\n  Last input 00:00:01, output 00:00:00, output hang never\n  Last clearing of "show interface" counters never\n  Input queue: 0/75/0/0 (size/max/drops/flushes); Total output drops: 0\n  Queueing strategy: fifo\n  Output queue: 0/40 (size/max)\n  5 minute input rate 0 bits/sec, 0 packets/sec\n  5 minute output rate 0 bits/sec, 0 packets/sec\n     100 packets input, 8000 bytes, 0 no buffer\n     Received 100 broadcasts (0 IP multicasts)\n     0 runts, 0 giants, 0 throttles\n     0 input errors, 0 CRC, 0 frame, 0 overrun, 0 ignored\n     0 watchdog, 0 multicast, 0 pause input\n     100 packets output, 8000 bytes, 0 underruns\n     0 output errors, 0 collisions, 0 interface resets\n     0 unknown protocol drops\n     0 babbles, 0 late collision, 0 deferred\n     0 lost carrier, 0 no carrier, 0 pause output\n     0 output buffer failures, 0 output buffers swapped out',
+                notes: 'This command provides detailed information about interface status, configuration, and statistics.'
+            },
+            {
+                vendor: 'juniper',
+                protocol: 'interface',
+                title: 'Show Interface Status',
+                description: 'Displays status and statistics for interfaces',
+                syntax: 'show interfaces',
+                example: 'user@router> show interfaces ge-0/0/0\nPhysical interface: ge-0/0/0, Enabled, Physical link is Up\n  Interface index: 138, SNMP ifIndex: 506\n  Link-level type: Ethernet, MTU: 1514, MRU: 1522, LAN-PHY mode, Speed: 1000mbps, BPDU Error: None, Loop Detect PDU Error: None, MAC-REWRITE Error: None, Loopback: Disabled, Source filtering: Disabled, Flow control: Enabled, Auto-negotiation: Enabled, Remote fault: Online\n  Device flags   : Present Running\n  Interface flags: SNMP-Traps Internal: 0x0\n  Link flags     : None\n  CoS queues     : 8 supported, 8 maximum usable queues\n  Current address: 00:50:56:a4:a8:c0, Hardware address: 00:50:56:a4:a8:c0\n  Last flapped   : 2023-01-01 00:00:00 UTC (30w3d 12:00 ago)\n  Input rate     : 0 bps (0 pps)\n  Output rate    : 0 bps (0 pps)\n  Active alarms  : None\n  Active defects : None\n  PCS statistics                      Seconds\n    Bit errors                             0\n    Errored blocks                         0\n  Interface transmit statistics: Disabled\n\n  Logical interface ge-0/0/0.0 (Index 69) (SNMP ifIndex 507)\n    Flags: SNMP-Traps 0x0 Encapsulation: ENET2\n    Input packets : 100\n    Output packets: 100\n    Protocol inet, MTU: 1500\n      Flags: Sendbcast-pkt-to-re, Is-Primary\n      Addresses, Flags: Is-Preferred Is-Primary\n        Destination: 192.168.1/24, Local: 192.168.1.1, Broadcast: 192.168.1.255',
+                notes: 'This command provides detailed information about interface status, configuration, and statistics.'
+            },
+            {
+                vendor: 'cisco',
+                protocol: 'mpls',
+                title: 'Show MPLS LDP Neighbor',
+                description: 'Displays MPLS LDP neighbor information',
+                syntax: 'show mpls ldp neighbor',
+                example: 'Router# show mpls ldp neighbor\n    Peer LDP Ident: 10.1.1.2:0; Local LDP Ident 10.1.1.1:0\n        TCP connection: 10.1.1.2.646 - 10.1.1.1.12005\n        State: Oper; Msgs sent/rcvd: 12/11; Downstream\n        Up time: 00:05:10\n        LDP discovery sources:\n          FastEthernet0/0, Src IP addr: 10.1.1.2\n        Addresses bound to peer LDP Ident:\n          10.1.1.2        172.16.1.2',
+                notes: 'Use this command to verify MPLS LDP neighbor relationships.'
+            },
+            {
+                vendor: 'juniper',
+                protocol: 'mpls',
+                title: 'Show MPLS LDP Neighbor',
+                description: 'Displays MPLS LDP neighbor information',
+                syntax: 'show ldp neighbor',
+                example: 'user@router> show ldp neighbor\nAddress                             Interface       Label space ID         Hold time\n10.1.1.2                            ge-0/0/0.0      10.1.1.2:0                14\n  Connection: Open, Last received LDP-PDU: 00:00:04, Last sent LDP-PDU: 00:00:06\n  Local address: 10.1.1.1, Remote address: 10.1.1.2',
+                notes: 'Use this command to verify MPLS LDP neighbor relationships.'
+            }
+        ];
+        
+        // Function to filter commands based on user selections
+        function filterCommands() {
+            const vendorFilter = document.getElementById('vendor-select').value;
+            const protocolFilter = document.getElementById('protocol-select').value;
+            const searchFilter = document.getElementById('command-search').value.toLowerCase();
+            
+            const filteredCommands = commandDatabase.filter(command => {
+                const vendorMatch = vendorFilter === 'all' || command.vendor === vendorFilter;
+                const protocolMatch = protocolFilter === 'all' || command.protocol === protocolFilter;
+                const searchMatch = command.title.toLowerCase().includes(searchFilter) || 
+                                   command.description.toLowerCase().includes(searchFilter) ||
+                                   command.syntax.toLowerCase().includes(searchFilter);
+                
+                return vendorMatch && protocolMatch && searchMatch;
+            });
+            
+            displayCommands(filteredCommands);
+        }
+        
+        // Function to display filtered commands
+        function displayCommands(commands) {
+            const resultsContainer = document.getElementById('command-results');
+            
+            if (commands.length === 0) {
+                resultsContainer.innerHTML = '<div class="no-results">No commands found matching your criteria.</div>';
+                return;
+            }
+            
+            let html = '';
+            
+            commands.forEach(command => {
+                html += `
+                    <div class="command-group">
+                        <div class="command-title">${command.title} (${command.vendor.toUpperCase()})</div>
+                        <div class="command-description">${command.description}</div>
+                        <div class="command-syntax"><strong>Syntax:</strong> ${command.syntax}</div>
+                        <div class="command-example"><strong>Example:</strong><br>${command.example}</div>
+                        <div class="command-notes"><strong>Notes:</strong> ${command.notes}</div>
+                    </div>
+                `;
+            });
+            
+            resultsContainer.innerHTML = html;
+        }
+        
+        // Initialize with all commands
+        document.addEventListener('DOMContentLoaded', function() {
+            displayCommands(commandDatabase);
+        });
+    </script>
+</body>
+</html>
